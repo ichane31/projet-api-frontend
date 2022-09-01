@@ -1,0 +1,136 @@
+.container {
+    position: relative;
+}
+@media (min-width: 1200px)
+{ .container {
+  max-width: 1173px;
+  position:absolute;
+}}
+
+.container{
+    width: 100%;
+    padding-right: var(--bs-gutter-x, 1rem);
+    padding-left: var(--bs-gutter-x, 1rem);
+    margin-right: auto;
+    margin-left: auto;
+}
+/* .py-4 {
+    padding-top: 1.8rem !important;
+    padding-bottom: 1.8rem !important;
+} */
+section {
+    padding-top: 7.5rem;
+    padding-bottom: 7.5rem;
+    position: relative;
+}
+
+@media (min-width: 992px)
+{section {
+  padding-top: 7.5rem;
+  padding-bottom: 7.5rem;
+}}
+ .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(var(--bs-gutter-y) * -1);
+    margin-right: calc(var(--bs-gutter-x) / -2);
+    margin-left: calc(var(--bs-gutter-x) / -2);
+}
+/* .order-1 {
+    order: 1 !important;
+} */
+
+@media (min-width: 992px)
+{.col-lg-8 {
+  flex: 0 0 auto;
+  width: 66.6666666667%;
+}}
+/* .row > * {
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 100%;
+    padding-right: calc(var(--bs-gutter-x) / 2);
+    padding-left: calc(var(--bs-gutter-x) / 2);
+    margin-top: var(--bs-gutter-y);
+  } */
+
+@media (min-width: 992px)
+{.d-lg-block {
+  display: block !important;
+}}
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+video {
+    margin: 1rem 0 2rem;
+}
+
+video source {
+    border-radius: 0.675rem;
+display: block;
+overflow: hidden;
+position: relative
+}
+
+.nav-tabs {
+    border-bottom: 1px solid #d8e2ef;
+}
+.nav {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+
+.review-tab .nav-item, .review-tab .banner .nav li, .banner .nav .review-tab li {
+    margin-right: 1rem !important;
+}
+
+
+@media (min-width: 992px)
+{.col-lg-4 {
+  flex: 0 0 auto;
+  width: 33.3333333333%;
+}}
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid #d8e2ef;
+    border-radius: 0.625rem;
+}
+.card-header:first-child {
+    border-radius: calc(0.625rem - 1px) calc(0.625rem - 1px) 0 0;
+}
+/* .card-header {
+    padding: 1rem 1.25rem;
+    margin-bottom: 0;
+    background-color: #fff;
+    border-bottom: 1px solid #d8e2ef;
+} */
+  @media (min-width: 1200px)
+{h2, .h2 {
+  font-size: 1.0736rem;
+}}
+ 
+.card-body {
+    flex: 1 1 auto;
+    padding: 1.5rem 1.5rem;
+    height: 270px;
+}
+.fade {
+    transition: opacity 0.15s linear;
+}
+.btn .btn-success {
+    background-color: rgb(0, 255, 72);
+} 
+
+.card-footer:last-child {
+    border-radius: 0 0 calc(0.625rem - 1px) calc(0.625rem - 1px);
+}

@@ -1,0 +1,35 @@
+
+form {
+    
+    align-items:center;
+    margin: 10px;
+}
+
+ .divEmail{
+    text-align: center;
+    align-items: center;
+    position: relative;
+    background: rgb(222, 228, 222);
+    /* min-width:400px;   */
+    /* max-height:400px; */
+    width: auto;
+    height: auto;
+    margin: 17% ;
+    margin-top: 8%;
+    margin-bottom: 10%;
+    box-shadow: 0 10px 25px rgb(1 1 20 / 20%);
+    border-radius: 10px;
+    overflow: hidden;
+    
+}
+
+.divEmail h3 {
+    color: rgb(177, 85, 35);
+    font-size: 22px;
+}
+
+/* .email_btn {
+    align-items: center;
+    margin-left : 41%;
+    
+} */

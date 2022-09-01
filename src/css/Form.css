@@ -1,0 +1,41 @@
+
+/* Form.css */
+
+.form .card {
+    min-width: 600px;
+}
+.form .card form {
+    margin-top: 2rem;
+}
+.form .card .field {
+    margin-bottom: 1.5rem;
+}
+label span {
+    font-size : 13px;
+    font-family:arial;
+}
+.profileUser {
+   
+    margin-top: 2%;
+    margin-left:13%;
+    margin-right:13%;
+}
+@media screen and (max-width: 960px) {
+    .form .card {
+        width: 80%;
+    }
+    .profileUser {
+        margin-left:3%;
+        margin-right:3%;
+    }
+}
+@media screen and (max-width: 640px) {
+    .form .card {
+        width: 100%;
+        min-width: 0;
+    }
+    .profileUser {
+        margin:0%;
+        padding: 0%;
+    }
+}

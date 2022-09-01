@@ -1,0 +1,153 @@
+/*Categories.css*/
+
+.dataview-category {
+    margin: 10px 10px;
+    /* display :flex; */
+}
+/* .dataview-category .category-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+} */
+
+.dataview-category .category-name a{
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: black;
+    height: 25px;
+}
+
+.dataview-category .category-description {
+    margin: 0 0 1rem 0;
+    width: 100%;
+    height: 60px;
+
+}
+
+.dataview-category .category-list-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    width: 100%;
+    
+}
+.col-12 {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.dataview-category .category-list-item img {
+    width: 150px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    margin-right: 2rem;
+}
+
+.dataview-category .category-list-item .category-list-detail {
+    flex: 1 1 0;
+}
+
+.dataview-category .category-list-item .category-projet {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: .5rem;
+    align-self: flex-end;
+}
+
+.dataview-category .category-list-item .category-list-action {
+    display: flex;
+    flex-direction: column;
+}
+
+.dataview-category  .ch_btn{
+    margin-bottom: .5rem;
+}
+
+/*grid  */
+.dataview-category .category-grid-item {
+    margin: 1.5em;
+    border: 1px solid var(--surface-border); 
+    padding: 2rem;
+    border-radius: 10px;
+    overflow: hidden;
+    /* position: relative; */
+   
+}
+.dataview-category .category-grid-item .product-grid-item-top ,
+    .dataview-category .category-grid-item .category-grid-item-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+} 
+.dataview-category .category-grid-item img {
+    width: 330px;
+    max-height:170px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    margin: 2rem 0;
+}
+.dataview-category .category-grid-item .category-projet {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+.dataview-category .category-grid-item .category-grid-item-content {
+    text-align: center;
+    
+} 
+.category-grid-item-bottom{
+    position: relative;
+    padding-top: 10px;
+}
+
+/* .category {
+    display: flex;
+    flex-wrap: wrap;
+}    */
+
+.grid {
+    display:flex;
+    flex-wrap :wrap;
+   justify-content: center;
+}
+
+.dataview-category .card{
+    position: relative;
+    background: #fff;
+    max-width: 380px;
+    /* max-height:400px; */
+    width: auto;
+    height: auto;
+    margin: 20px;
+    box-shadow: 0 5px 25px rgb(1 1 1 / 20%);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+@media screen and (max-width: 576px) {
+    .dataview-category .category-list-item {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .dataview-category .category-list-item img {
+        width: 100%;
+        margin: 2rem 0;
+    }
+
+    .dataview-category .category-list-item .category-list-detail {
+        text-align: center;
+    }
+
+    .dataview-category .category-list-item .category-projet {
+        align-self: center;
+    }
+
+    .dataview-category .category-list-item .category-list-action {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .dataview-category .category-list-item .category-list-action {
+        margin-top: 2rem;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+}

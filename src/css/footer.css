@@ -1,0 +1,12 @@
+/* === Start ::: footer ===*/
+footer{
+    background-color: white;;
+    color:black;
+}
+footer a{
+    color:black !important;
+}
+footer a:hover{
+    text-decoration: underline !important;
+    color:rgb(14, 121, 85) !important;
+}

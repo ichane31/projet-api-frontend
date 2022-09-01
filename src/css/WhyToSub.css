@@ -1,0 +1,38 @@
+/* === Start ::: whyToSub ===*/
+.whyToSub{
+    background-color: #ececec;
+    margin: 20px 0;
+    padding: 50px 0;
+}
+
+.whyToSubDiv h3{
+    margin-bottom: 30px;
+    padding: 20px 0;
+}
+
+.why {
+   margin-left: 10% ;
+   margin-right: 10% ;
+   display: flex;
+   flex-wrap: wrap;
+}
+.reasons{
+    margin: 10px;
+    padding:20px;
+    border-radius: 10px;
+    width:400px;
+}
+
+.reasons h4{
+    color:orange;
+}
+.reasons a{
+    color:orange;
+    font-size:20px;
+}
+.reasons p{
+    color:white;
+}
+
+
+/* === End ::: whyToSub  ===*/

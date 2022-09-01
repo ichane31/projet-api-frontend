@@ -1,0 +1,8 @@
+
+Suggestion
+
+To display a picture, it is better to use the <img> tag.
+
+To display HTML, it is better to use the <iframe> tag.
+
+To display video or audio, it is better to use the <video> and <audio> tags.

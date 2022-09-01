@@ -1,0 +1,92 @@
+.dataview-projet {
+    margin: 10px 10px;
+    /* display :flex; */
+}
+h3 {
+    text-align: center;
+    font-size:medium;
+}
+.dataview-projet .projet-title a{
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: black;
+    overflow: hidden;
+    /* min-height: 20%; */
+}
+
+.dataview-projet .projet-title {
+    min-height: 60px;
+}
+.dataview-projet .projet-description {
+    margin: 0 0 1rem 0;
+    width: 100%;
+    min-height: 130px;
+    overflow: hidden;
+
+}
+.dataview-projet .projet-category-icon {
+    vertical-align: middle;
+    margin-right: .5rem;
+    width : 20px;
+}
+.dataview-projet .projet-category {
+    font-weight: 600;
+    vertical-align: middle;
+}
+.dataview-projet .projet-grid-item {
+    margin: 1.5em;
+    border: 1px solid var(--surface-border); 
+    padding: 2rem;
+    border-radius: 10px;
+    overflow: hidden;
+    height: auto;
+    /* position: relative; */
+   
+}
+.dataview-projet .projet-grid-item .projet-grid-item-top ,
+    .dataview-projet .projet-grid-item .projet-grid-item-bottom  {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.projet-grid-item-comment {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 15px;
+}
+.dataview-projet .projet-grid-item img {
+    width: 330px;
+    max-height:150px;
+    border-radius: 50%;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    margin: 2rem 0;
+}
+.dataview-projet .projet-grid-item .projet-grid-item-comment {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+.dataview-projet .projet-grid-item .projet-grid-item-content {
+    text-align: center;
+    
+}
+.dataview-projet .projet-grid-item .projet-price {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+.projet-grid-item-bottom{
+    position: relative;
+    padding-top: 10px;
+    
+}
+.dataview-projet .card{
+    position: relative;
+    background: #fff;
+    max-width: 420px;
+    /* max-height:400px; */
+    width: auto;
+    height: auto;
+    margin: 20px;
+    box-shadow: 0 5px 25px rgb(1 1 1 / 20%);
+    border-radius: 10px;
+    overflow: hidden;
+}
