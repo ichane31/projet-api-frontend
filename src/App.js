@@ -41,9 +41,9 @@ function App() {
         <Navbar />
       </div>
        {/* <Nav/>  */}
-       <div className="card">
+       {/* <div className="card">
           <BreadCrumb className="bg-gray-700" />
-        </div>
+        </div> */}
 
       <Routes>
       <Route path="/" element={<Login />}/>

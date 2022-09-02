@@ -8,7 +8,7 @@ const WhyToSub = () => {
     <h3 className="text-center text-primary">POURQUOI S'INSCRIRE?</h3>
     <div className="why  justify-content-center ">
       <div className="reasons bg-secondary ">
-        <a href="#"><i className="icon-new_releases" /> Nouveaux Projets</a>
+        <a href="/Acceuil"><i className="icon-new_releases" /> Nouveaux Projets</a>
         <p>Plus de 100 projets  et 10 nouveautés en moyenne sont ajoutés par mois.</p>
       </div>
       <div className="reasons bg-secondary">

@@ -27,11 +27,11 @@ export default function Register() {
     };
     const validationSchema = Yup.object().shape({
         firstname: Yup.string()
-        .min(5, "trop petit")
+        .min(3, "trop petit")
         .max(50, "trop long!")
         .required("Ce champ est obligatoire"),
     lastname: Yup.string()
-        .min(2, "trop petit")
+        .min(3, "trop petit")
         .max(10, "trop long!")
         .required("Ce champ est obligatoire"),
         email: Yup.string()

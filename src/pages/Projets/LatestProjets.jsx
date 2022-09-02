@@ -12,12 +12,23 @@ const LatestProjets = () => {
     const [projets , setProjets] = useState([]);
     const responsiveOptions = [
         {
-            breakpoint: '1024px',
+            breakpoint: '1200px',
             numVisible: 2,
             numScroll: 2
         },
         {
-            breakpoint: '600px',
+            breakpoint: '1024px',
+            numVisible: 2,
+            numScroll: 2
+        },
+        
+        {
+            breakpoint: '940px',
+            numVisible: 2,
+            numScroll: 2
+        },
+        {
+            breakpoint: '800px',
             numVisible: 1,
             numScroll: 1
         },
@@ -39,7 +50,7 @@ const LatestProjets = () => {
     };
     const ProjetTemplate = (projet) => {
         return (
-            <div className="d-flex mb-5">
+            <div className="d-flex mb-5 items-center justify-content-center">
                 <div className="projet-grid-item card">
                     {/* <div className="card_header">
                         <span>Projet</span>
@@ -66,7 +77,7 @@ const LatestProjets = () => {
                         <span className="text-success fs-5">gratuit</span> 
                     :
                     <span className="projet-price">${projet.prix}</span>  }
-                        <button  label="Consulter"> <a className="btn border-dark ch_btn" href="">Consulter</a> </button>
+                        <button  label="Consulter"> <a className="btn border-dark ch_btn" href={`/${projet.id}/ProjetDetail`}>Consulter</a> </button>
                     </div>
                     <div className="projet-grid-item-comment mb-4">
                         <div>

@@ -70,20 +70,20 @@ const Projets = () => {
                     <img src={`${url}/${data.image}`} onError={(e) => e.target.src='https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={data.name} />
                     :
                     <img src={projet0} alt="" />}
-                        <div className="projet-title"><a href="/Projet">{data.title}</a></div>
+                        <div className="projet-title"><a href={`/${data.id}/ProjetDetail`}>{data.title}</a></div>
                         <div className="projet-description">{data.description}</div>
                         
                     </div>
                     <div className="projet-grid-item-bottom">
                         <span className="projet-price">${data.prix}</span>
-                        <button  label="Consulter"> <a className="btn border-dark ch_btn" href="">Consulter</a> </button>
+                        <button  label="Consulter"> <a className="btn border-dark ch_btn" href={`/${data.id}/ProjetDetail`}>Consulter</a> </button>
                     </div>
                     <div className="projet-grid-item-comment">
                         <div>
-                           <span className="projet-comments"> <a href="/Comment">{data.Comments} Commentaires</a> </span>
+                           <span className="projet-comments"> <a href="">{data.Comments} Commentaires</a> </span>
                         </div>
                         <div>
-                           <span className="projet-notes"> <a href="/Note">{data.notes} Notes</a> </span>
+                           <span className="projet-notes"> <a href="">{data.notes} Notes</a> </span>
                         </div>
                     </div>
                 </div>

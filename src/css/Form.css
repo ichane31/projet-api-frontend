@@ -20,6 +20,14 @@ label span {
     margin-left:13%;
     margin-right:13%;
 }
+.FirstLast {
+    width:100%;
+    display: flex;
+    justify-content:space-between;
+}
+.FirstLast .champ{
+    width:100%;
+}
 @media screen and (max-width: 960px) {
     .form .card {
         width: 80%;
@@ -27,6 +35,19 @@ label span {
     .profileUser {
         margin-left:3%;
         margin-right:3%;
+    }
+    .FirstLast .champ{
+        width:85%;
+    }
+    
+}
+@media screen and (max-width: 720px) {
+    
+    .FirstLast {
+        display: inline;
+    }
+    .FirstLast label{
+        width: 80px;
     }
 }
 @media screen and (max-width: 640px) {
@@ -37,5 +58,8 @@ label span {
     .profileUser {
         margin:0%;
         padding: 0%;
+    }
+    .FirstLast {
+        display: inline;
     }
 }

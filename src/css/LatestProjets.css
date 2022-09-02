@@ -15,6 +15,9 @@
     border-left: 3px solid #0AB1CE;
     height: 35px;
 }
+.carousel .projet-grid-item-top{
+    height: 38px;
+}
 
 h3 {
     text-align: center;
@@ -29,12 +32,14 @@ h3 {
 }
 
 .carousel .projet-title {
-    min-height: 60px;
+    height: 60px;
+    max-height: 100px;
 }
 .carousel .projet-description {
     margin: 0 0 1rem 0;
     width: 100%;
-    min-height: 130px;
+    height: 120px;
+    max-height: 180px;
     overflow: hidden;
 
 }
@@ -46,6 +51,7 @@ h3 {
 .carousel .projet-category {
     font-weight: 600;
     vertical-align: middle;
+    width: auto;
 }
 .carousel .projet-grid-item {
     margin: 1.5em;
@@ -69,7 +75,7 @@ h3 {
 }
 .carousel .projet-grid-item img {
     width: 330px;
-    max-height:150px;
+    height:110px;
     border-radius: 50%;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     margin: 2rem 0;
@@ -94,7 +100,7 @@ h3 {
 .carousel .card{
     position: relative;
     background: #fff;
-    max-width: 420px;
+    max-width: 400px;
     /* max-height:400px; */
     width: auto;
     height: auto;
