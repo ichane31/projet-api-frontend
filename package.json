@@ -2,10 +2,7 @@
   "name": "lablib-projets",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "yarn": "1.22.19",
-    "node": "16.14.2"
-  },
+  
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.22.2",
     "@craco/craco": "^6.4.5",
