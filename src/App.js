@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Parse from 'parse/dist/parse.min.js';
 import Navbar from './components/Navbar';
+import NavBarBoost from './components/NavBarBoost';
 import Nav from './components/Nav';
 import {BrowserRouter , Routes , Route} from "react-router-dom";
 import { BreadCrumb } from 'primereact/breadcrumb';
@@ -37,8 +38,9 @@ function App() {
   return (
   <div>
     <BrowserRouter>
-      <div className=" bg-white">
-        <Navbar />
+      <div className="">
+        <NavBarBoost />
+        {/* <Navbar /> */}
       </div>
        {/* <Nav/>  */}
        {/* <div className="card">

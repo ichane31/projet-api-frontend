@@ -13,6 +13,8 @@ import { Formik, Field} from 'formik';
 import * as Yup from 'yup';
 import '../../css/Form.css';
 import Projet1 from '../../data/projet1.jpg';
+import {AiOutlinePlus} from'react-icons/ai';
+
 
 const ProjetByCategory = () => {
     const url = 'https://projet-apis.herokuapp.com/api/v1/file';
@@ -186,6 +188,7 @@ const ProjetByCategory = () => {
 
     const renderGridItem = (data) => {
         return( 
+            <>
             <div className="d-flex">
                 <div className="projet-grid-item card">
                     <div className="projet-grid-item-top">
@@ -226,6 +229,8 @@ const ProjetByCategory = () => {
                     </div>
                 </div>
             </div>
+            
+            </>
         )
     } 
 
@@ -238,11 +243,13 @@ const ProjetByCategory = () => {
       </Helmet>
       <div className="dataview-projet">
             <Toast ref={toast} />
-            {/* <div className="card"> */}
+            <div className=""> 
+            <button className="w-16 h-16 rounded-full bg-gray-200"> <a href="/NewProjet">{<AiOutlinePlus className='w-16 h-16' />}</a> </button>
                 <DataView value={projets}
                         itemTemplate={renderGridItem} lazy paginator paginatorPosition={'bottom'} rows={rows.current}
                         totalRecords={totalRecords} first={first} onPage={onPage} loading={loading} />
-            {/* </div> */}
+                
+            </div> 
             {projet.id ?
              <Dialog visible={projetDialog} style={{ width: '650px' }} header="Modifier Projet" modal  className="p-fluid" onHide={hideDialog}>
                 <Formik

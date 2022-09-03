@@ -623,6 +623,16 @@ header input{
     margin-top: 16px;
 }
 
+.navBoot {
+    display:flex;
+    flex-direction: row;
+}
+.offcanvas{
+    display: flex;
+    flex-direction: row;
+}
+
+
 
 /* === End ::: navbar ===*/
 /* Start :: nav */
