@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import {createRoot} from 'react-dom/client';
 import './index.css';
 import App from './App';
 import  "bootstrap/dist/css/bootstrap.min.css";
@@ -10,10 +11,14 @@ import 'primereact/dataview/dataview.min.css'
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'font-awesome/css/font-awesome.min.css';
 import 'antd/dist/antd.less'; 
+import { AuthProvider } from './contexts/authContext';
+import { ContextProvider } from './contexts/ContextProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <AuthProvider>
+    <ContextProvider>
+      <App />
+    </ContextProvider>
+  </AuthProvider>
 );

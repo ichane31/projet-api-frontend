@@ -6,12 +6,15 @@ export function numFormatter(num) {
     } else if (num < 1000) {
         return num; // if value < 1000, nothing to do
     }
-}
+};
 
 
 export const getItemFromStorage = (key) => {
     const item = window.localStorage.getItem(key);
-    return item ? JSON.parse(item) : null;
+    if (item === undefined){
+       return null;
+    }
+       return  JSON.parse(item)
 };
 
 export const setItemInStorage = (name, data) => {

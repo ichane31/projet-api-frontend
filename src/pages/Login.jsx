@@ -9,7 +9,7 @@ import { Formik} from 'formik';
 import * as Yup from 'yup';
 import {LoginUser  } from '../services/UserService';
 import {useAuth} from '../hoc/useAuth';
-
+import { setItemInStorage } from '../helpers/helper';
 
 const Login = () => {
     const toast = useRef(null);
@@ -69,22 +69,14 @@ const Login = () => {
                                 let d = await res.json();
                                 // if(d.id) {
                                 //     dispatch({ type: 'LOGIN', payload: d });
-                                //     localStorage.setItem('user', JSON.stringify(d));
+                                //     setItemInStorage('user', d);
+                                //     setItemInStorage('token',d.token);
                                 //     return d
                                 // }
                                 toast.current.show({ severity: 'success', summary: 'Created!', detail: "Vous éte connecté", life: 3000 });
                                 resetForm();
                                 // navigate(`/Acceuil`)
-                                localStorage.setItem('userId',d.id);
-                                localStorage.setItem('token',d.token);
-                                
-                                const  headers ={
-                                    headers: {'Authorization':"Bearer" + localStorage.getItem('token')}
-                                }
-                        
-                                let user = await GetMe(headers);
-                                
-                                console.log(user);
+                                // localStorage.setItem('userId',d.id);
 
                             }
                             else{

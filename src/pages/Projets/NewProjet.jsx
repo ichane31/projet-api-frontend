@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 import {GetCategory } from '../../services/CategoryService';
 import {PostProjet} from '../../services/ProjetService';
 import '../../css/Form.css';
-import getItemFromStorage from '../../helpers/helper';
+import {getItemFromStorage} from '../../helpers/helper';
 
 export default function NewProjet (){
     const [categories, setCategories] = useState([]);
@@ -64,7 +64,7 @@ export default function NewProjet (){
                 const token = getItemFromStorage('token');
 
                 // try{
-                //     let res = await PostProjet(requestOptions)
+                //     let res = await PostProjet(requestOptions ,token)
                 //     if (res.ok){
                 //         let d = await res.json();
                 //         toast.current.show({ severity: 'success', summary: 'Created!', detail: "Projet has been Created Successfully", life: 3000 });

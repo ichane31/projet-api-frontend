@@ -1,10 +1,10 @@
 
 import {createContext , useEffect , useReducer ,useState} from 'react';
-import {getItemFromStorage , setItemFromStorage , removeItemFromStorage } from '../helpers/helper';
+import {getItemFromStorage , setItemInStorage , removeItemFromStorage } from '../helpers/helper';
 import {GetMeDetails } from '../services/UserService';
 
 
-const AuthContext = createContext()
+export const AuthContext = createContext()
 
 let $user = getItemFromStorage('user');
 const $token = getItemFromStorage('token');
@@ -43,7 +43,7 @@ export const AuthProvider = ({children })  =>  {
                         dispatch({type: 'USER' , payload : $user})
 
                         if($user.role === 1) {
-                            setItemFromStorage('admin',$user);
+                            setItemInStorage('admin',$user);
                         }
                            
                     } else {
@@ -55,13 +55,13 @@ export const AuthProvider = ({children })  =>  {
                 }
                 else{
                     
-                    navigate('/Login');
+                    throw 'You mut login'
                 }
             }
             catch(err){
                 removeItemFromStorage('user');
                 removeItemFromStorage('token')
-                navigate('/Login');
+                
             }
         }
         currentUser()
@@ -69,7 +69,7 @@ export const AuthProvider = ({children })  =>  {
     }, [])
 
     return (
-        <AuthContext.Provider value={{ ...user, dispatch }}>
+        <AuthContext.Provider value={{ ...state, dispatch }}>
             { children }
         </AuthContext.Provider>
      )
