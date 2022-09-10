@@ -6,14 +6,21 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import logo from '../data/logo.png';
+import lablib from '../data/Lablib_Projet.png';
+import lablib2 from '../data/projetS.png';
 import '../css/App.css'
 import {GetCategory} from '../services/CategoryService';
 import user from '../data/user.jpg';
 import UserProfile from './UserProfile';
-import React , {useEffect, useState} from 'react'
+import React , {useEffect, useState} from 'react';
+import  {Link} from 'react-router-dom';
+import {InputText} from 'primereact/inputtext';
+import {useStateContext} from '../contexts/ContextProvider';
 
+
+const url = 'https://projet-apis.herokuapp.com/api/v1/file';
 const NavBarBoost = () => {
-    const [isClicked , setIsClicked] = useState(false);
+    const {handleClick , isClicked } = useStateContext();
     const [categories, setCategories] = useState([]);
     useEffect(() => {
         GetCategory().then(data => {
@@ -23,57 +30,63 @@ const NavBarBoost = () => {
         
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-    const handleClick = () => {
-        setIsClicked(true);
-        console.log(isClicked)
-    }
+    // const handleClick = () => {
+    //     setIsClicked(isClicked => !isClicked);
+    //     console.log(isClicked)
+    // }
 
   return (
-    <div >
-        <Navbar offcanvasNavbar expand="lg" bg="dark" variant="dark" className="mb-3 d-flex justify-content-between align-items-center" style={{}}>
+    <div className="navBoot" >
+        <Navbar fixed='top' offcanvasnavbar='true' expand="lg" bg="white" variant="light" className=" mb-5 d-flex justify-content-between align-items-center border-b-1 shadow-md"  >
             <Container fluid className="d-flex">
-                <Navbar.Brand className="ml-3" href="#"><img src={logo} alt="logo" width={75} height={50}/></Navbar.Brand>
-                <Navbar.Toggle aria-controls='offcanvasNavbar-expand-lg' />
+                <Navbar.Brand className="ml-3" href="#"><img src={lablib2} alt="logo" width={75} height={50}/></Navbar.Brand>
+                <Navbar.Toggle aria-controls='offcanvasnavbar-expand-lg' />
                 <Navbar.Offcanvas
-                    id='offcanvasNavbar-expand-lg'
-                    // aria-labelledby='offcanvasNavbarLabel-expand-$lg'
+                    id='offcanvasnavbar-expand-lg'
+                    // aria-labelledby='offcanvasnavbarLabel-expand-$lg'
                      placement="end"
                      className="  row"
                     >
                     <Offcanvas.Header closeButton>
-                        <Offcanvas.Title id='offcanvasNavbarLabel-expand-lg'>
+                        <Offcanvas.Title id='offcanvasnavbarLabel-expand-lg'>
                            Menu
                         </Offcanvas.Title>
                     </Offcanvas.Header>
                     <Offcanvas.Body>
-                    <Nav className=" me-auto">
-                        <Nav.Link className="ml-3 fs-5" href="/Acceuil"><i className='pi pi-home'/> Acceuil</Nav.Link>
-                        <NavDropdown className="ml-3 fs-5" title="Categories" id="collasible-nav-dropdown">
+                    <Nav className=" me-auto" >
+                        <Nav.Link eventkey={1.1} className=" item ml-3 fs-5 d-flex  hover:text-blue-800" href="/Acceuil"><i className='pi pi-home mt-3'/>{''} <h5 className="linkText mt-3">  Acceuil</h5></Nav.Link>
+                        <NavDropdown className="ml-3 fs-5 text-dark" eventkey={1.2}  title={ <span className="mt-3 linkText">Categories</span>}  id="offcanvasnavbarDropdown-expand-lg" 
+                        // onToggle={() => { window.location.href = '/Categories'}}
+                        // onMouseEnter={() => setIsToolsHovered(true)}
+                        // onMouseLeave={() => setIsToolsHovered(false) } 
+                        >
+                           <NavDropdown.Item eventKey={1.3} href={`/Categories`}>Toutes les categories</NavDropdown.Item>
                               {categories.map(
-                                        e => <NavDropdown.Item key={e.id} href={`${e.id}/ProjetByCategory`}>{e.name}</NavDropdown.Item>
+                                        e => <NavDropdown.Item eventKey={e.id} href={`/Categories/${e.id}/ProjetByCategory`}>{e.name}</NavDropdown.Item>
                                     )}
                            
                         </NavDropdown>
-                        <Nav.Link className="ml-3 fs-5" href="/Contact"> Contact</Nav.Link>
+                        <Nav.Link eventkey={1.4} className=" item ml-4 fs-5 " href="/Contact"> <h5 className="linkText mt-3">Contact</h5></Nav.Link>
                     </Nav>
-                    <Form className="d-flex form-inline pr-40">
+                    <Form className=" row mt-3 pr-40 searchbar">
                         
-                        <div className="input-group search-box">
-                            <input type="text" className=' inputSearch form-control text-black '  aria-label='Search' placeholder='Chercher ici .....'/>
-                            <div className="input-group-append">
+                        <div className="input-group search-box ">
+                            <input type="seach" className='  form-control text-black focus:bg-gray-700'  aria-label='Search' placeholder='Chercher ici .....'
+                            style={{}} />
+                            <div className="input-group-append ">
                                 <button type='submit' className='bg-primary border-0 px-3'> <i className="pi pi-search text-white bg-blue"/> </button>
                             </div>
                         </div>
                   
                     </Form>
-                    {/* <Nav className="mr-3">
-                        <Nav.Link className="ml-3 fs-5" href="/Login">Connexion</Nav.Link>
-                        <Nav.Link  className="ml-3 fs-5" eventKey={2} href="/Register" >
-                        Inscription
+                     <Nav className="  mr-3">
+                        <Nav.Link className=" item ml-3 " eventkey={1.5} href="/Login"> <h5 className="linkText mt-3">Connexion</h5> </Nav.Link>
+                        <Nav.Link  className="item ml-3 fs-5" eventKey={1.6} href="/Register" >
+                        <h5 className="linkText mt-3">Inscription</h5>
                         </Nav.Link>
-                    </Nav> */}
-                    <Nav>
-                    <div className="profile nav-bar flex items-center gap-2 cursor-pointer pt-0 ml-auto mr-5" onClick={() => handleClick()}>
+                    </Nav>
+                    {/* <Nav>
+                    <div className="profile nav-bar flex items-center gap-2 cursor-pointer pt-0 ml-auto mr-5" onClick={() => handleClick('userProfile)}>
                             <img className="rounded-full w-10 h-10" src={user} alt="user-image" />
                               
                             <p className=" md:block pt-3">
@@ -82,7 +95,7 @@ const NavBarBoost = () => {
                             </p>
                         </div> 
                         {isClicked && ( <UserProfile setIsClicked={setIsClicked}/> )}
-                    </Nav>
+                    </Nav> */}
                     </Offcanvas.Body>
                 </Navbar.Offcanvas>
             </Container>

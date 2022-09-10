@@ -5,11 +5,16 @@ import projet0 from '../../data/projet0.jpg';
 import '../../css/LatestProjets.css';
 import '../../css/Projets.css';
 import Projets from './Projets';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const LatestProjets = () => {
 
     const url = 'https://projet-apis.herokuapp.com/api/v1/file';
     const [projets , setProjets] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+
     const responsiveOptions = [
         {
             breakpoint: '1200px',
@@ -40,7 +45,9 @@ const LatestProjets = () => {
     ];
 
     useEffect(() => {
-        LatestsProjets(10).then((data) => setProjets(data));
+        setIsLoading(true);
+        LatestsProjets(10).then((data) => {setProjets(data) ,
+            setIsLoading(false);});
     } , []);
 
     console.log(projets)
@@ -105,11 +112,45 @@ const LatestProjets = () => {
             <div className="carousel mt-5">
                 <h2 className="der_h2 mt-3">Derniers <span className="derniers">Projets</span></h2>
                 <hr />
+                {!isLoading ?
                 <div className="owl-carousel owl-theme mt-5">
                 <Carousel value={projets} numVisible={3} numScroll={1} responsiveOptions={responsiveOptions} className="custom-carousel" circular
                     autoplayInterval={3000} itemTemplate={ProjetTemplate}  />
                 </div>
-                
+                :
+                <div className=" py-4">
+                <div className="flex flex-wrap justify-between mb-3">
+                    <div className='flex'>
+                        <div className='mr-3'>
+                            <Skeleton width={100} height={50}/>
+                        </div>
+                        <div>
+                            <Skeleton width={100} height={50}/>
+                        </div>
+                    </div>
+                    <div className='pr-3'>
+                        <Skeleton width={150} height={50}/>
+                    </div>
+                </div>
+                <Skeleton height={30}/>
+                <Skeleton count={8} height={25}/>
+                <div className="flex flex-wrap justify-between mb-3">
+                    <div className='flex'>
+                        <div className='mr-3'>
+                            <Skeleton width={100} height={50}/>
+                        </div>
+                        <div>
+                            <Skeleton width={100} height={50}/>
+                        </div>
+                    </div>
+                    <div className='pr-3'>
+                        <Skeleton width={150} height={50}/>
+                    </div>
+                </div>
+                <Skeleton height={30}/>
+                <Skeleton count={8} height={25}/>
+            </div>
+                }
      
             </div>
             <div>

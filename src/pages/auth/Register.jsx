@@ -57,7 +57,7 @@ export default function Register() {
                 </script>
         </Helmet>
         <Toast ref={toast} />
-        <div className="login_page">
+        <div className="login_page ">
             <h2>Inscription</h2>
             <Formik 
             initialValues = {initialValues}
@@ -101,6 +101,7 @@ export default function Register() {
                {(formik) => (
                 <> 
                 <form className="p-fluid " onSubmit={formik.handleSubmit} encType="multipart/form-data">
+                    <div className=" nomPrenom  justify-center-between">
                     <div className="wrap">
                         <label className='' htmlFor="firstname">Prenom</label>
                         <input
@@ -127,7 +128,7 @@ export default function Register() {
                             <div className="text-red-500 text-xs italic">{formik.errors.lastname}</div>
                         ) : null}
                     </div>
-            
+                    </div>
                     <div className="wrap">
                         <label className='' htmlFor="lastname">Addresse Email</label>
                         <input
@@ -172,7 +173,7 @@ export default function Register() {
                     <div className="custom-control custom-checkbox pt-3 pb-3">
                          <input type="checkbox" className="custom-control-input" id="customCheck1" 
                          {...formik.getFieldProps('acceptTerms')}/>
-                         <label className="custom-control-label" htmlFor="customCheck1">Check this custom checkbox</label>
+                         <label className="custom-control-label" htmlFor="customCheck1">Acceptez les termes de confidentialité</label>
                          {formik.touched.acceptTerms && formik.errors.acceptTerms ? (
                             <div className="text-red-500 text-xs italic">{formik.errors.acceptTerms}</div>
                         ) : null}

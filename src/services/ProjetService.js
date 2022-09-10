@@ -21,24 +21,39 @@ export async function GetProjetsByUser(id) {
     return projets;
 }
 
-export async function PostProjet(newProjet) {
-    return await fetch('https://projet-apis.herokuapp.com/api/v1/projet', newProjet);
+export async function PostProjet(newProjet , token) {
+    return await fetch('https://projet-apis.herokuapp.com/api/v1/projet', newProjet ,{
+    headers: {
+        'Authorization': `Bearer ${token}` 
+    } });
 }
 
-export async function PutProjet(id, modifieProjet) {
-    return await fetch(`https://projet-apis.herokuapp.com/api/v1/projet/${id}`, modifieProjet);
+export async function PutProjet(id, modifieProjet, token) {
+    return await fetch(`https://projet-apis.herokuapp.com/api/v1/projet/${id}`, modifieProjet ,{
+    headers: {
+        'Authorization': `Bearer ${token}` 
+    } });
 }
 
-export async function DelProjet(id) {
-    return await fetch(`https://projet-apis.herokuapp.com/api/v1/projet/${id}`,  { method: 'DELETE'});
+export async function DelProjet(id , token) {
+    return await fetch(`https://projet-apis.herokuapp.com/api/v1/projet/${id}`, {
+    headers: {
+        'Authorization': `Bearer ${token}` 
+    } }, { method: 'DELETE'});
 }
 
-export async function FavProjet(id) {
-    return await fetch(`https://projet-apis.herokuapp.com/api/v1/projet/${id}/favorite`);
+export async function FavProjet(id, token) {
+    return await fetch(`https://projet-apis.herokuapp.com/api/v1/projet/${id}/favorite` ,{
+    headers: {
+        'Authorization': `Bearer ${token}` 
+    } });
 }
 
-export async function UnFavProjet(id) {
-    return await fetch(`https://projet-apis.herokuapp.com/api/v1/projet/${id}/unfavorite`);
+export async function UnFavProjet(id , token) {
+    return await fetch(`https://projet-apis.herokuapp.com/api/v1/projet/${id}/unfavorite` ,{
+    headers: {
+        'Authorization': `Bearer ${token}` 
+    } });
 }
 
 export async function LatestsProjets(count) {
@@ -47,10 +62,16 @@ export async function LatestsProjets(count) {
     return projets;
 }
 
-export async function FavoriteProjets(count) {
-    return await fetch(`https://projet-apis.herokuapp.com/api/v1/projet/favorites/${count}`);
+export async function FavoriteProjets(count ,token) {
+    return await fetch(`https://projet-apis.herokuapp.com/api/v1/projet/favorites/${count}` ,{
+    headers: {
+        'Authorization': `Bearer ${token}` 
+    } });
 }
 
-export async function SuggestionsProjets(count) {
-    return await fetch(`https://projet-apis.herokuapp.com/api/v1/projet/suggestions/${count}`);
+export async function SuggestionsProjets(count , token) {
+    return await fetch(`https://projet-apis.herokuapp.com/api/v1/projet/suggestions/${count}` ,{
+    headers: {
+        'Authorization': `Bearer ${token}` 
+    } });
 }

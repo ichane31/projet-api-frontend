@@ -22,6 +22,8 @@ const Profile = () => {
         inputRef.current.value = null;
     }
 
+    
+
     useEffect(() => {})
   return (
     <>
@@ -58,15 +60,15 @@ const Profile = () => {
                         email: Yup.string()
                         .email("Email invalide")
                         .required("Email obligatoire"),
-                        password: Yup.string()
+                        currentPassword: Yup.string()
                         .min(8, "Mot de passe doit depaser 8 caractères")
                         .max(25 , "Mot de passe trop long!")
                         .required("Mot de passe obligatoire"),
-                        currentPassword: Yup.string()
+                        password: Yup.string()
                         .min(8 , 'Mot de passe trop petit')
                         .matches(/^[\w]+$/ , 'erreur')
-                        .when('password', (password, field) =>
-                        password? field.required(): field),
+                        .when('currentPassword', (currentPassword, field) =>
+                        currentPassword? field.required(): field),
                         image: Yup.mixed().required('choisir une image').nullable()
                     })}
                     
@@ -158,10 +160,12 @@ const Profile = () => {
                                         placeholder="adresse email" 
                                         {...formik.getFieldProps('email')}
                                     />
+                                    
                                     {formik.touched.email && formik.errors.email ? (
                                         <div className="text-red-500 text-xs italic">{formik.errors.email}</div>
                                     ) : null}
                                 </div>
+                                <button className="mt-3 p-2 btn">Change Email</button>
                             </div>
                             <div className="FirstLast p-2 w-auto">
                                 <div className='flex flex-wrap -mx-3 mb-6 '>

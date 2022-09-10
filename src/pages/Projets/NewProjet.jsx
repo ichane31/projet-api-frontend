@@ -8,6 +8,7 @@ import * as Yup from 'yup';
 import {GetCategory } from '../../services/CategoryService';
 import {PostProjet} from '../../services/ProjetService';
 import '../../css/Form.css';
+import getItemFromStorage from '../../helpers/helper';
 
 export default function NewProjet (){
     const [categories, setCategories] = useState([]);
@@ -59,6 +60,8 @@ export default function NewProjet (){
                     body: data,
                     redirect: 'follow'
                 };
+
+                const token = getItemFromStorage('token');
 
                 // try{
                 //     let res = await PostProjet(requestOptions)
@@ -170,7 +173,7 @@ export default function NewProjet (){
                         id="resume" 
                         type="file"
                         name="resume"
-                        accept='.doc , .odt , .txt'
+                        accept='.doc , .docx , .odt , .txt'
                         onChange={(event) => {
                             // const fileReader = new FileReader();
                             // fileReader.onload = () => {
@@ -197,7 +200,7 @@ export default function NewProjet (){
                         id="rapport" 
                         type="file"
                         name="rapport"
-                        accept='.pdf , .doc , .docx , .odt'
+                        accept='.pdf , .doc , .docx '
                         onChange={(event) => {
                             // const fileReader = new FileReader();
                             // fileReader.onload = () => {

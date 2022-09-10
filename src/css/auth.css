@@ -1,11 +1,17 @@
 .login_page{
-    max-width: 500px;
+    max-width: 600px;
     margin: auto;
+    margin-top: 10%;
     color: #444;
     padding: 0 15px;
     background: rgb(235, 238, 231);
     border-radius: 10px;
     overflow: hidden;
+}
+
+.login_page .nomPrenom{
+    display: flex;
+    justify-content: space-between;
 }
 .login_page h2{
     margin: 20px 0;
@@ -184,3 +190,11 @@ label {
     letter-spacing: 1.3px;
     box-shadow: 0 2px 4px #777;
 }
+
+@media screen and (max-width: 1076px){
+.login_page{
+    margin-top: 18%;
+    max-width: 500px;
+}
+    .login_page .nomPrenom {
+  display : inline;}}

@@ -2,12 +2,18 @@ export async function GetUsers() {
     return await fetch('https://projet-apis.herokuapp.com/api/v1/user');
 }
 
-export async function GetMe() {
-    return await fetch('https://projet-apis.herokuapp.com/api/v1/user/me');
+export async function GetMe(token) {
+    return await fetch('https://projet-apis.herokuapp.com/api/v1/user/me', {
+    headers: {
+        'Authorization': `Bearer ${token}` 
+    } });
 }
 
-export async function PutMe(modifieMe) {
-    return await fetch('https://projet-apis.herokuapp.com/api/v1/user/me', modifieMe);
+export async function PutMe(modifieMe , token) {
+    return await fetch('https://projet-apis.herokuapp.com/api/v1/user/me', modifieMe ,{
+    headers: {
+        'Authorization': `Bearer ${token}` 
+    } });
 }
 
 export async function PostRegisterUser(newUser) {
@@ -42,11 +48,14 @@ export async function ChangeEmail(token ) {
     return await fetch(`https://projet-apis.herokuapp.com/api/v1/user/resetpassword/${token}` );
 }
 
-export async function GetUser(id) {
-    return await fetch(`https://projet-apis.herokuapp.com/api/v1/user/${id}` );
+export async function GetUser(id, token) {
+    return await fetch(`https://projet-apis.herokuapp.com/api/v1/user/${id}` ,{
+        headers: {
+            'Authorization': `Bearer ${token}` 
+        } })
 }
 
-export async function GelUser(id) {
+export async function BelUser(id) {
     return await fetch(`https://projet-apis.herokuapp.com/api/v1/user/${id}` , {method: 'DELETE'} );
 }
 
@@ -58,8 +67,11 @@ export async function Logout() {
     return await fetch('https://projet-apis.herokuapp.com/api/v1/user/logout');
 }
 
-export async function GetMeDetails() {
-    return await fetch('https://projet-apis.herokuapp.com/api/v1/user/me/details');
+export async function GetMeDetails(token) {
+    return await fetch('https://projet-apis.herokuapp.com/api/v1/user/me/details' ,{
+    headers: {
+        'Authorization': `Bearer ${token}` 
+    } });
 }
 
 export async function PromoteUser(id) {
@@ -78,9 +90,4 @@ export async function GetRoleUser() {
     return await fetch('https://projet-apis.herokuapp.com/api/v1/user/role/user');
 }
 
-export async function GetMeDevice() {
-    return await fetch('https://projet-apis.herokuapp.com/api/v1/user/me/device');
-}
-export async function DelMeDevice(id) {
-    return await fetch(`https://projet-apis.herokuapp.com/api/v1/user/me/device/${id}` , {method: 'DELETE'});
-}
+

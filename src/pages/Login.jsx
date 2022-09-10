@@ -1,19 +1,20 @@
 
-import {Redirect } from 'react-router-dom';
-import Parse from 'parse/dist/parse.min.js';
+import {useNavigate } from 'react-router-dom';
 import '../css/login.css';
 import '../css/main.css';
-
 import React, {useRef} from 'react'
 import Helmet from "react-helmet"
 import { Toast } from 'primereact/toast';
 import { Formik} from 'formik';
 import * as Yup from 'yup';
-import {LoginUser , GetMe } from '../services/UserService';
+import {LoginUser  } from '../services/UserService';
+import {useAuth} from '../hoc/useAuth';
 
 
 const Login = () => {
     const toast = useRef(null);
+    const navigate = useNavigate();
+    const { dispatch } = useAuth();
 
     const inputRef = useRef(null);
 
@@ -24,13 +25,14 @@ const Login = () => {
         <>
         <Helmet>
                 <script>
-                    document.title = "Nouvelle Catégorie"
+                    document.title = "Connexion "
                 </script>
         </Helmet>
         <Toast ref={toast} />
-        <div className='limiter'>
+        <section>
+        <div className='limiter '>
             <div className="container-login100">
-                <div className="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+                <div className="wrap-login100 p-l-55 p-r-55 p-t-55 p-b-54">
                     
                 
                 <Formik
@@ -61,18 +63,21 @@ const Login = () => {
                         };
 
                         try{
+                            // dispatch({type : 'REQUEST_LOGIN'});
                             let res = await LoginUser(requestOptions)
                             if (res.ok){
                                 let d = await res.json();
+                                // if(d.id) {
+                                //     dispatch({ type: 'LOGIN', payload: d });
+                                //     localStorage.setItem('user', JSON.stringify(d));
+                                //     return d
+                                // }
                                 toast.current.show({ severity: 'success', summary: 'Created!', detail: "Vous éte connecté", life: 3000 });
                                 resetForm();
-                                // resetFileInput();
                                 // navigate(`/Acceuil`)
                                 localStorage.setItem('userId',d.id);
                                 localStorage.setItem('token',d.token);
                                 
-                                // const loggedInUser = await Parse.User.logIn();
-                                // console.log(Parse.User.current());
                                 const  headers ={
                                     headers: {'Authorization':"Bearer" + localStorage.getItem('token')}
                                 }
@@ -85,19 +90,16 @@ const Login = () => {
                             else{
                                 if(Array.isArray(res) && res.length === 0) return "error";
                                 let r = await res.json()
+                                // dispatch({ type: 'LOGIN_ERROR', error: r[0] });
                                 throw r[0].message;
                             }
                         }
                         catch (err){
+                            // dispatch({ type: 'LOGIN_ERROR', error: error });
                             console.log("err: ", err);
                             toast.current.show({ severity: 'error', summary: 'Failed', detail: err, life: 3000 });
                         } 
 
-                        // try {
-                        //     const loggedInUser = await Parse.User.logIn(data);
-                        //     alert ('You are loggedIn');
-                        // }
-                        // catch {}
                         
                         
                         setSubmitting(false);
@@ -167,7 +169,8 @@ const Login = () => {
 				</div>
             </div>
         </div>
-		<div id="dropDownSelect1" />
+		
+        </section>
         </>
     )
 }

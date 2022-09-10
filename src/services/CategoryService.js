@@ -14,14 +14,14 @@ export async function GetCategoryItem(id) {
     return categories;
 }
 
-export async function PostCategory(newCategory) {
-    return await fetch('https://projet-apis.herokuapp.com/api/v1/category', newCategory);
-}
+// export async function PostCategory(newCategory) {
+//     return await fetch('https://projet-apis.herokuapp.com/api/v1/category', newCategory);
+// }
 
-export async function PutCategory(id, modifieCategory) {
-    return await fetch(`https://projet-apis.herokuapp.com/api/v1/category/${id}`, modifieCategory);
-}
+// export async function PutCategory(id, modifieCategory) {
+//     return await fetch(`https://projet-apis.herokuapp.com/api/v1/category/${id}`, modifieCategory);
+// }
 
-export async function DelCategory(id) {
-    return await fetch(`https://projet-apis.herokuapp.com/api/v1/category/${id}`,  { method: 'DELETE'});
-}
+// export async function DelCategory(id) {
+//     return await fetch(`https://projet-apis.herokuapp.com/api/v1/category/${id}`,  { method: 'DELETE'});
+// }

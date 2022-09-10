@@ -525,13 +525,9 @@ header img{
         padding-top: 30px !important;
         padding-bottom: 30px !important;
     }
-    .searchbar{
-        display: none !important;
-    }
+    
 }
-.searchbar button{
-    background-color: #0AB1CE !important;
-}
+
 
 /*
 @media (min-width:991px) and (max-width:1140px){
@@ -1147,7 +1143,7 @@ label.error {
 	border: none;
 }
 .signup-form .form-control:focus {
-	background: #e2e2e2;
+	background: #bdb8b8;
 }
 .signup-form .form-control, .signup-form .btn {        
 	border-radius: 1px;

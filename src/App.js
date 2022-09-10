@@ -42,11 +42,8 @@ function App() {
         <NavBarBoost />
         {/* <Navbar /> */}
       </div>
-       {/* <Nav/>  */}
-       {/* <div className="card">
-          <BreadCrumb className="bg-gray-700" />
-        </div> */}
-
+       
+   <div className="main">
       <Routes>
       <Route path="/" element={<Login />}/>
       <Route path="/Contact" element={<Contact />}/ >
@@ -55,13 +52,14 @@ function App() {
         <Route path="/Register" element={<Register />}/>
         <Route path="/Categories" element={<Categories />}/>
         <Route path="/:id/Projet" element={<Projets />}/>
-        <Route path="/:id/ProjetByCategory" element={<ProjetByCategory />}/>
+        <Route path="/Categories/:id/ProjetByCategory" element={<ProjetByCategory />}/>
         <Route path="/NewProjet" element={<NewProjet />}/>
         <Route path="/:id/ProjetDetail" element={<ProjetDetail />}/>
         <Route path="/Acceuil" element={<LatestProjets />}/>
         <Route path="/:userEmail/emailSend" element={<EmailSend />}/>
         <Route path="Profile" element={<Profile />} />
       </Routes>
+      </div>
       <WhyToSub/>
       <Footer/>
     </BrowserRouter>

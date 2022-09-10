@@ -77,8 +77,8 @@ const Categories = () => {
                         <div className="category-description">{data.description}</div>
                     </div>
                     <div className="category-list-action">
-                        <span className="category-projet"> <a href={`${data.id}/ProjetByCategory`} >{data.projets} projets</a> </span>
-                        <a className="btn border-dark ch_btn" href={`${data.id}/ProjetByCategory`} icon="pi pi-shopping-cart"  >Explorer</a>
+                        <span className="category-projet"> <a href={`/Categories/${data.id}/ProjetByCategory`} >{data.projets} projets</a> </span>
+                        <a className="btn border-dark ch_btn" href={`/Categories/${data.id}/ProjetByCategory`} icon="pi pi-shopping-cart"  >Explorer</a>
                     </div>
                 </div>
             </div>
@@ -103,10 +103,10 @@ const Categories = () => {
                     </div>
                     <div className="category-grid-item-bottom">
                        <div className="ch_card_body">
-                         <a href={`${data.id}/ProjetByCategory`} className="btn border-dark ch_btn">Explorer</a>
+                         <a href={`/Categories/${data.id}/ProjetByCategory`} className="btn border-dark ch_btn">Explorer</a>
                        </div>
                         <div className="category-projet">
-                         <span className="mx-2"> <a href={`${data.id}/ProjetByCategory`}>{data.projets} Projets</a> </span>
+                         <span className="mx-2"> <a href={`/Categories/${data.id}/ProjetByCategory`}>{data.projets} Projets</a> </span>
                         </div>
                     </div>
                 </div>
