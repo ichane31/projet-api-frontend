@@ -52,7 +52,7 @@ const NavBarBoost = () => {
     <div className="navBoot" >
         <Navbar fixed='top' offcanvasnavbar='true' expand="lg" bg="white" variant="light" className=" mb-5 d-flex justify-content-between align-items-center border-b-1 shadow-md"  >
             <Container fluid className="d-flex containerNav">
-                <Navbar.Brand className="" href="#"><img src={lablib2} alt="logo" width={75} height={50}/></Navbar.Brand>
+                <Navbar.Brand className="" href="/"><img src={lablib2} alt="logo" width={75} height={50}/></Navbar.Brand>
                 <Navbar.Toggle aria-controls='offcanvasnavbar-expand-lg' />
                 <Navbar.Offcanvas
                     id='offcanvasnavbar-expand-lg'

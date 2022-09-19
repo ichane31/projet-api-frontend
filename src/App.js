@@ -88,7 +88,7 @@ function App() {
         <Route path="*" element={<PageNotFound/>} />
         <Route path="/MesFavoris" element={<Login />} />
         <Route path="verification" element={<Verification />} />
-        <Route path="/Acceuil" element={<Verification />} />
+        <Route path="/Acceuil" element={<FirstPage />} />
         <Route path="/search" element={<Search />} />
         {/* <Route path="/Results" element={<SearchResults />} /> */}
         
