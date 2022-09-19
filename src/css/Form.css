@@ -14,30 +14,36 @@ label span {
     font-size : 13px;
     font-family:arial;
 }
+
 .profileUser {
-   
+    box-shadow: 1px solid green;
     margin-top: 2%;
-    margin-left:13%;
-    margin-right:13%;
+    padding:5%;
+    margin-left:25%;
+    margin-right: 25%;
+}
+.profileUser img {
+    width:25%;
 }
 .FirstLast {
     width:100%;
     display: flex;
     justify-content:space-between;
 }
-.FirstLast .champ{
-    width:100%;
+ .champ{
+    width:95%;
+    margin-right: 30%;
 }
 @media screen and (max-width: 960px) {
     .form .card {
         width: 80%;
     }
     .profileUser {
-        margin-left:3%;
-        margin-right:3%;
+        margin-left:20%;
+        margin-right:20%;
     }
-    .FirstLast .champ{
-        width:85%;
+    .profileUser img {
+        width:30%;
     }
     
 }
@@ -62,4 +68,34 @@ label span {
     .FirstLast {
         display: inline;
     }
+}
+
+.account {
+    margin-left:25%;
+    margin-right:25%;
+    padding: 3%;
+    font-family: Arial;
+}
+.account h5 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: bold;
+    font-size: 17px;
+}
+.accountUserDiv {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 25px;
+}
+.avertis {
+    height: auto;
+    margin-top: 25px;
+    background: rgb(248, 195, 195);
+    border-radius: 5px;
+    justify-content:center;
+    align-items: center;
+}
+.avertis p{
+    padding: 12px;
+}
+.raison {
+    width: 95%;
 }

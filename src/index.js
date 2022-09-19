@@ -11,6 +11,7 @@ import 'primereact/dataview/dataview.min.css'
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'font-awesome/css/font-awesome.min.css';
 import 'antd/dist/antd.less'; 
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { AuthProvider } from './contexts/authContext';
 import { ContextProvider } from './contexts/ContextProvider';
 

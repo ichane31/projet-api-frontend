@@ -12,7 +12,10 @@
   }
   
   .comment-form-title {
-    font-size: 22px;
+    font-size: 16px;
+  }
+  .toolbarClass [aria-hidden="true"] {
+    display: none;
   }
   
   .comment-form-textarea {
@@ -43,7 +46,8 @@
   
   .comment-form-button {
     font-size: 16px;
-    padding: 8px 16px;
+    padding: 8px 10px;
+    margin-left: 60px;
     background: rgb(59, 130, 246);
     border-radius: 8px;
     color: white;
@@ -65,7 +69,10 @@
   
   .comment {
     display: flex;
-    margin-bottom: 28px;
+    margin-bottom: 22px;
+    margin-left: 10px;
+    background-color: rgb(220, 222, 222);
+    border-radius: 7px;
   }
   
   .comment-image-container {
@@ -86,17 +93,20 @@
   
   .comment-author {
     margin-right: 8px;
-    font-size: 20px;
+    font-size: 17px;
     color: rgb(59, 130, 246);
+  }
+  .date{
+    font-size: 16px;
   }
   
   .comment-text {
-    font-size: 18px;
+    font-size: 16px;
   }
   
   .comment-actions {
     display: flex;
-    font-size: 12px;
+    font-size: 14px;
     color: rgb(51, 51, 51);
     cursor: pointer;
     margin-top: 8px;

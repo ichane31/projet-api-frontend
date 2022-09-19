@@ -24,32 +24,23 @@ export async function GetComment(id) {
     return await fetch(`https://projet-apis.herokuapp.com/api/v1/comment/${id}`);
 }
 
-export async function PostComment(id,newComment , token) {
-    return await fetch(`https://projet-apis.herokuapp.com/api/v1/comment/${id}`, newComment ,{
-    headers: {
-        'Authorization': `Bearer ${token}` 
-    } });
+export async function PostComment(id,newComment ) {
+    return await fetch(`https://projet-apis.herokuapp.com/api/v1/comment/${id}`, newComment, );
 }
 
-export async function PutComment(id, modifieComment ,token) {
-    return await fetch(`https://projet-apis.herokuapp.com/api/v1/comment/${id}`, modifieComment ,{
-    headers: {
-        'Authorization': `Bearer ${token}` 
-    } });
+export async function PutComment(id, modifieComment ) {
+    return await fetch(`https://projet-apis.herokuapp.com/api/v1/comment/${id}`, modifieComment );
 }
 
 export async function DelComment(id , token) {
     return await fetch(`https://projet-apis.herokuapp.com/api/v1/comment/${id}` ,{
     headers: {
         'Authorization': `Bearer ${token}` 
-    } },  { method: 'DELETE'});
+    } , method: 'DELETE'});
 }
 
-export async function PostReplyComment(id ,newReply, token) {
-    return await fetch(`https://projet-apis.herokuapp.com/api/v1/comment/${id}/reply`, newReply ,{
-    headers: {
-        'Authorization': `Bearer ${token}` 
-    } });
+export async function PostReplyComment(id ,newReply) {
+    return await fetch(`https://projet-apis.herokuapp.com/api/v1/comment/${id}/Reply`, newReply );
 }
 
 export async function GetReplyByComment(id) {
@@ -58,16 +49,10 @@ export async function GetReplyByComment(id) {
     return replies;
 }
 
-export async function LikeComment(id , token ) {
-    return await fetch(`https://projet-apis.herokuapp.com/api/v1/comment/${id}/like` ,{
-    headers: {
-        'Authorization': `Bearer ${token}` 
-    } });
+export async function LikeComment(id ,token) {
+    return await fetch(`https://projet-apis.herokuapp.com/api/v1/comment/${id}/like`, { method: 'POST', headers: {"Authorization": "Bearer " +token}} );
 }
 
-export async function UnLikeComment(id ,token) {
-    return await fetch(`https://projet-apis.herokuapp.com/api/v1/comment/${id}/dislike` ,{
-    headers: {
-        'Authorization': `Bearer ${token}` 
-    } } );
+export async function UnLikeComment(id , token ) {
+    return await fetch(`https://projet-apis.herokuapp.com/api/v1/comment/${id}/dislike` , {method: 'DELETE' , headers: {"Authorization": "Bearer " +token}} ); 
 }

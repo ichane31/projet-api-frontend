@@ -6,7 +6,8 @@ import '../../css/LatestProjets.css';
 import '../../css/Projets.css';
 import Projets from './Projets';
 import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css'
+import 'react-loading-skeleton/dist/skeleton.css';
+import parse from 'html-react-parser';
 
 const LatestProjets = () => {
 
@@ -50,7 +51,7 @@ const LatestProjets = () => {
             setIsLoading(false);});
     } , []);
 
-    console.log(projets)
+   
 
     const createdAt = (projet) => {
         return new Date(projet.createdAt).toLocaleDateString();
@@ -75,8 +76,8 @@ const LatestProjets = () => {
                     <img src={`${url}/${projet.image}`} onError={(e) => e.target.src='https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={projet.name} />
                     :
                     <img src={projet0} alt="" />}
-                        <div className="projet-title"><a href="/Projet">{projet.title}</a></div>
-                        <div className="projet-description">{projet.description}</div>
+                        <div className="projet-title"><a href={`/${projet.id}/ProjetDetail`}>{projet.title}</a></div>
+                        <div className="projet-description">{parse(projet.description)}</div>
                         
                     </div>
                     <div className="projet-grid-item-bottom">
@@ -88,10 +89,10 @@ const LatestProjets = () => {
                     </div>
                     <div className="projet-grid-item-comment mb-4">
                         <div>
-                           <span className="projet-comments"> <a href="/Comment">{projet.Comments} Commentaires</a> </span>
+                           <span className="projet-comments"> <a href={`/${projet.id}/ProjetDetail#tab-comments`}>{projet.Comments} Commentaires</a> </span>
                         </div>
                         <div>
-                           <span className="projet-notes"> <a href="/Note">{projet.notes} Notes</a> </span>
+                           <span className="projet-notes"> <a href={`/${projet.id}/ProjetDetail#tab-notes`}>{projet.notes} Notes</a> </span>
                         </div>
                     </div>
                     <div className="author">
@@ -110,7 +111,7 @@ const LatestProjets = () => {
     return (
         <>
             <div className="carousel mt-5">
-                <h2 className="der_h2 mt-3">Derniers <span className="derniers">Projets</span></h2>
+                <h3 className="der_h2 mt-3">Derniers Projets </h3>
                 <hr />
                 {!isLoading ?
                 <div className="owl-carousel owl-theme mt-5">
@@ -137,14 +138,22 @@ const LatestProjets = () => {
                 <div className="flex flex-wrap justify-between mb-3">
                     <div className='flex'>
                         <div className='mr-3'>
-                            <Skeleton width={100} height={50}/>
+                            <Skeleton width={800} height={20}/>
                         </div>
                         <div>
-                            <Skeleton width={100} height={50}/>
+                            <Skeleton width={800} height={20}/>
+                        </div>
+                    </div>
+                    <div className='flex'>
+                        <div className='mr-3'>
+                            <Skeleton width={800} height={20}/>
+                        </div>
+                        <div>
+                            <Skeleton width={800} height={20}/>
                         </div>
                     </div>
                     <div className='pr-3'>
-                        <Skeleton width={150} height={50}/>
+                        <Skeleton width={150} height={20}/>
                     </div>
                 </div>
                 <Skeleton height={30}/>

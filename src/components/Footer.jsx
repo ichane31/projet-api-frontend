@@ -10,7 +10,7 @@ const Footer = () => {
         <ul>
           <li className="p-2">About</li>
           <hr />
-          <li className="p-2"><a href="/About">L'équipe</a></li>
+   
           <li className="p-2"><a href="/Contact">Contact</a></li>
         </ul>
       </div>
@@ -20,7 +20,7 @@ const Footer = () => {
           <hr />
           <li className="p-2"><a href="#">Politique de confidentialité</a></li>
           <li className="p-2"><a href="#">Faq</a></li>
-          <li className="p-2"><a href="#">Plan du site</a></li>
+          {/* <li className="p-2"><a href="#">Plan du site</a></li> */}
         </ul>
       </div>
       <div className="col-sm-4">
@@ -34,7 +34,7 @@ const Footer = () => {
       </div>
     </div>
     <div className="mt-3">
-      <h6 className="text-center">Copyright © 2022 - <a href="https://lablib.herokuapp.com/" className="text-warning">LabLib Projets</a> - Tous droits réservés</h6>
+      <h6 className="text-center">Copyright © 2022 - <a href="https://projet-api-frontend.herokuapp.com/" className="text-warning">LabLib Projets</a> - Tous droits réservés</h6>
       <p className="text-center">v.0.2, updated 06-21-22 by ichane</p>
     </div>
   </div>

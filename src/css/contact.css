@@ -10,8 +10,8 @@
 }
 
   .contact-wrap {
-    background: rgba(127, 39, 156, 1);
-    background: -moz-linear-gradient(
+    background: rgb(116, 177, 231);
+    /* background: -moz-linear-gradient(
       -45deg,
       rgba(127, 39, 156, 1) 0%,
       rgba(46, 39, 157, 1) 100%
@@ -43,11 +43,12 @@
       rgba(46, 39, 157, 1) 100%
     );
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7f279c', endColorstr='#2e279d', GradientType=1 );
-    
+     */
   }
 
   .contact-wrap h3 {
-    color: #fff;
+    color: black;
+    font-family: Arial;
   }
 
   h3 {
@@ -61,47 +62,34 @@
   }
 
   .form-control {
+    
     height: 100%;
-    background: transparent;
-    color: rgba(255, 255, 255, 0.8) !important;
+    color: black !important;
     font-size: 16px;
-    border-radius: 0px;
+    border-radius: 5px;
     line-height: 1.2;
     box-shadow: none !important;
     border: 1px solid rgba(255, 255, 255, 0.2);
-    -webkit-input-placeholder :
-      /* Chrome/Opera/Safari */
-      rgba(255, 255, 255, 0.5) !important;
-    -moz-placeholder :
-      /* Firefox 19+ */
-      rgba(255, 255, 255, 0.5) !important;
-    -ms-input-placeholder :
-       /* IE 0+ */
-      rgba(255, 255, 255, 0.5) !important;
-    -moz-placeholder :
-       /* Firefox 18- */
-      rgba(255, 255, 255, 0.5) !important;
+    
   }
   .form-control:focus .form-control:active{
     background: transparent;
     border-color: rgba(255, 255, 255, 0.5) !important;
   }
   
-  .contact-wrap .form-control {
-    background: transparent;
-  }
+  
 
   textarea .form-control {
     height: inherit !important;
     margin-top: 10px;
-    background: transparent;
+    
   }
 
-  .contactForm .form-control {
+  /* .contactForm .form-control {
     border: none;
     border-bottom: 1px solid rgba(241, 243, 240, 0.2);
     padding: 0;
-  }
+  } */
   
   .btn {
     padding: 12px 16px;
@@ -118,8 +106,7 @@
   }
 
   .btn-primary {
-    background: #d62196 !important;
-    border-color: #d62196 !important;
+    background: #2145d6 !important;
     color: #fff;
   }
 
@@ -197,5 +184,5 @@ a :hover :focus{
 }
 
 #contactForm .form-control {
-  font: size 16px;
+  font-size: 16px;
 }

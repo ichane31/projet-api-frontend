@@ -7,6 +7,10 @@
   position:absolute;
 }}
 
+@media (min-width: 768px)
+{ .container {
+  padding-top: 5%;
+}}
 .container{
     width: 100%;
     padding-right: var(--bs-gutter-x, 1rem);
@@ -24,12 +28,23 @@ section {
     position: relative;
 }
 
-@media (min-width: 992px)
-{section {
+@media (min-width: 992px) {
+    section {
   padding-top: 7.5rem;
   padding-bottom: 7.5rem;
 }}
- .row {
+
+
+@media (max-width: 992px) {
+   
+    .projetDet .fichier .card {
+       width: 80%;
+    }
+    .projetDet {
+        margin-top: 5%;
+    }
+}
+ .projetDet {
     display: flex;
     flex-wrap: wrap;
     margin-top: calc(var(--bs-gutter-y) * -1);
@@ -108,6 +123,10 @@ position: relative
 .card-header:first-child {
     border-radius: calc(0.625rem - 1px) calc(0.625rem - 1px) 0 0;
 }
+.description {
+    text-justify: justify;
+    text-align: auto;
+}
 /* .card-header {
     padding: 1rem 1.25rem;
     margin-bottom: 0;
@@ -116,7 +135,7 @@ position: relative
 } */
   @media (min-width: 1200px)
 {h2, .h2 {
-  font-size: 1.0736rem;
+  font-size: 1rem;
 }}
  
 .card-body {

@@ -1,10 +1,9 @@
 // Import Parse minified version
 import React, { useEffect, useState } from 'react';
-import Parse from 'parse/dist/parse.min.js';
 import Navbar from './components/Navbar';
 import NavBarBoost from './components/NavBarBoost';
 import Nav from './components/Nav';
-import {BrowserRouter , Routes , Route} from "react-router-dom";
+import {BrowserRouter , Routes , Route ,Navigate ,useLocation } from "react-router-dom";
 import { BreadCrumb } from 'primereact/breadcrumb';
 import Login from './pages/Login';
 import Register from './pages/auth/Register';
@@ -20,16 +19,23 @@ import NewProjet from './pages/Projets/NewProjet';
 import ProjetDetail from './pages/Projets/ProjetDetail';
 import LatestProjets from './pages/Projets/LatestProjets';
 import Profile from './pages/Profile';
-
-// Your Parse initialization configuration goes here
-const PARSE_APPLICATION_ID = 'PYP4BbVFq63rSa0VOuXfNDejnWE2312oShVbZZwy';
-const PARSE_HOST_URL = 'https://parseapi.back4app.com/';
-const PARSE_JAVASCRIPT_KEY = 'TxuZROQIB2LkBddlwHZoO0d9kefxdv1v13jV3YCt';
-Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
-Parse.serverURL = PARSE_HOST_URL;
+import FirstPage from './pages/FirstPage';
+import { useAuth} from './hoc/useAuth'; 
+import EditorComponent from './components/EditorComponent';
+import CommentForm from './components/CommentsFolder/CommentForm';
+import PageNotFound from './pages/PageNotFound';
+import ResetPassword from './pages/auth/ResetPassword';
+import PasswordEmailSend from './pages/auth/PasswordEmailSend';
+import AccountSetting from './pages/AccountSetting';
+import FavSuggest from './pages/FavSuggest';
+import Verification from './components/Verification';
+import Search from './components/Search';
+import SearchResults from './pages/SearchResults'
 
 function App() {
   const [path, setPath] = useState([{label: window.location.pathname.substring(1)}]);
+  const {user } = useAuth();
+  
 
   useEffect(() => {
     setPath([{label: window.location.pathname.substring(1)}]);        
@@ -39,26 +45,56 @@ function App() {
   <div>
     <BrowserRouter>
       <div className="">
-        <NavBarBoost />
-        {/* <Navbar /> */}
+        {user ? 
+        <NavBarBoost />:
+        <Navbar /> 
+        }
       </div>
        
    <div className="main">
-      <Routes>
-      <Route path="/" element={<Login />}/>
-      <Route path="/Contact" element={<Contact />}/ >
-        <Route path="/forgetPassword" element={<ForgotPassword />}/ >
+
+   {user && Object.keys(user).length ? 
+   <Routes>
+   <Route path="/" element={<FirstPage />}/>
+   <Route path="/Contact" element={<Contact />}/ >
+     <Route path="/Categories" element={<Categories />}/>
+     <Route path="/:id/Projet" element={<Projets />}/>
+     <Route path="/Categories/:id/ProjetByCategory" element={<ProjetByCategory />}/>
+     <Route path="/NewProjet" element={<NewProjet />}/>
+     <Route path="/:id/ProjetDetail" element={<ProjetDetail />}/>
+     <Route path="/Acceuil" element={<LatestProjets />}/>
+     <Route path="/:userEmail/emailSend" element={<EmailSend />}/>
+     <Route path="/Profile" element={<Profile />} />
+     <Route path="ProfileSetting" element={<AccountSetting />} />
+     <Route path="/MesFavoris" element={<FavSuggest />} />
+     <Route path="/Results" element={<SearchResults />} />
+      {/* <Route path="/search" element={<Search />} />  */}
+   </Routes>
+   :
+   <Routes>
+      <Route path="/" element={<FirstPage />}/>  
+        <Route path="/Categories" element={<Verification />}/>
+        <Route path="/Categories/:id/ProjetByCategory" element={<Verification/>}/>
+        <Route path="/NewProjet" element={<Verification />}/>
+        <Route path="/:id/ProjetDetail" element={<Verification />}/>
+        <Route path="/:userEmail/emailSend" element={<EmailSend />}/>
+        <Route path="/ProfileSetting" element={<Verification />} />
         <Route path="/Login" element={<Login />}/>
         <Route path="/Register" element={<Register />}/>
-        <Route path="/Categories" element={<Categories />}/>
-        <Route path="/:id/Projet" element={<Projets />}/>
-        <Route path="/Categories/:id/ProjetByCategory" element={<ProjetByCategory />}/>
-        <Route path="/NewProjet" element={<NewProjet />}/>
-        <Route path="/:id/ProjetDetail" element={<ProjetDetail />}/>
-        <Route path="/Acceuil" element={<LatestProjets />}/>
-        <Route path="/:userEmail/emailSend" element={<EmailSend />}/>
-        <Route path="Profile" element={<Profile />} />
+        <Route path="/Contact" element={<Contact/>}/>
+        <Route path="/forgetPassword" element={<ForgotPassword/>}/>
+        <Route path="/:token/resetPassword" element={<ResetPassword/>}/>
+        <Route path="/Password/:email/Passwordemailsend" element={<PasswordEmailSend/>}/>
+        <Route path="*" element={<PageNotFound/>} />
+        <Route path="/MesFavoris" element={<Login />} />
+        <Route path="verification" element={<Verification />} />
+        <Route path="/Acceuil" element={<Verification />} />
+        <Route path="/search" element={<Search />} />
+        {/* <Route path="/Results" element={<SearchResults />} /> */}
+        
       </Routes>
+   }
+       
       </div>
       <WhyToSub/>
       <Footer/>

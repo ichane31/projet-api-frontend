@@ -15,16 +15,14 @@ h3 {
 }
 
 .dataview-projet .projet-title {
-    height: 60px;
+    min-height: 50px;
     overflow: hidden;
-    text-overflow: ellipsis;
 }
 .dataview-projet .projet-description {
     margin: 0 0 1rem 0;
     width: 100%;
-    height: 150px;
+    max-height: 100px;
     overflow: hidden;
-    text-overflow: ellipsis;
 
 }
 .dataview-projet .projet-category-icon {
@@ -34,10 +32,7 @@ h3 {
 }
 .dataview-projet .projet-category {
     font-weight: 600;
-    max-width: 350px;
     vertical-align: middle;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 .dataview-projet .projet-grid-item {
     margin: 1.5em;
@@ -55,15 +50,14 @@ h3 {
     align-items: center;
     justify-content: space-between;
 }
-.projet-grid-item-comment {
+.projet-grid-item-contact {
     display: flex;
-    justify-content: space-between;
-    padding-top: 15px;
+    justify-content: center;
+    padding-top: 5px;
 }
-.dataview-projet .projet-grid-item img {
+.dataview-projet .projet-grid-item-content img {
     width: 330px;
     height:200px;
-    clip-path:ellipse(36% 50%);
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     margin: 2rem 0;
 }
@@ -87,7 +81,7 @@ h3 {
 .dataview-projet .card{
     position: relative;
     background: #fff;
-    max-width: 400px;
+    max-width: 380px;
     /* max-height:400px; */
     width: auto;
     height: auto;

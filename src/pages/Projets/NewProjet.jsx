@@ -3,6 +3,7 @@ import Helmet from "react-helmet"
 import { Toast } from 'primereact/toast';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
+import {Editor} from 'primereact/editor';
 import { Formik, Field} from 'formik';
 import * as Yup from 'yup';
 import {GetCategory } from '../../services/CategoryService';
@@ -24,6 +25,14 @@ export default function NewProjet (){
         inputRef.current.value = null;
     };
 
+    const imageMimeType = /image\/(png|jpg|jpeg)/i;
+    const resumeMimeType = /application\/(msword|vnd.oasis.opendocument.text |vnd.openxmlformats-officedocument.wordprocessingml.document) | text\/plain/i;
+    const rapportMimeType = /application\/(pdf|msword|vnd.openxmlformats-officedocument.wordprocessingml.document)/i;
+    const presentationMimeType =/application\/(vnd.ms-powerpoint|vnd.openxmlformats-officedocument.presentationml.presentation)/i ;
+    const videoMimeType =/video\/(x-msvideo|mpeg|ogg|mp4)/i ;
+    const codeMimeType = /application\/(zip|vnd.rar)/i;
+
+
     return (
         <>
         <Helmet>
@@ -42,7 +51,7 @@ export default function NewProjet (){
             validationSchema = {Yup.object({
                 title: Yup.string()
                 .min(10 , '10 characters or plus')
-                .max(40 , 'Must be 40 characters or less')
+                // .max(40 , 'Must be 40 characters or less')
                 .required('Required'),
                 description: Yup.string()
                 .max(250 , 'Must be 250 characters or less'),
@@ -55,32 +64,33 @@ export default function NewProjet (){
                     data.append(value, values[value]);
                 }
                 setSubmitting(true);
+                const token = getItemFromStorage('token');
                 var requestOptions = {
                     method: 'POST',
                     body: data,
+                    headers: new Headers({"Authorization": "Bearer " + token}),
                     redirect: 'follow'
                 };
 
-                const token = getItemFromStorage('token');
 
-                // try{
-                //     let res = await PostProjet(requestOptions ,token)
-                //     if (res.ok){
-                //         let d = await res.json();
-                //         toast.current.show({ severity: 'success', summary: 'Created!', detail: "Projet has been Created Successfully", life: 3000 });
-                //         resetForm();
-                //         resetFileInput();
-                //     }
-                //     else{
-                //         if(Array.isArray(res) && res.length === 0) return "error";
-                //         let r = await res.json()
-                //         throw r[0].message;
-                //     }
-                // }
-                // catch (err){
-                //     console.log("err: ", err);
-                //     toast.current.show({ severity: 'error', summary: 'Failed', detail: err, life: 3000 });
-                // } 
+                try{
+                    let res = await PostProjet(requestOptions )
+                    if (res.ok){
+                        let d = await res.json();
+                        toast.current.show({ severity: 'success', summary: 'Created!', detail: "Projet has been Created Successfully", life: 3000 });
+                        resetForm();
+                        resetFileInput();
+                    }
+                    else{
+                        if(Array.isArray(res) && res.length === 0) return "error";
+                        let r = await res.json()
+                        throw r[0].message;
+                    }
+                }
+                catch (err){
+                    console.log("err: ", err);
+                    toast.current.show({ severity: 'error', summary: 'Failed', detail: err, life: 3000 });
+                } 
                 console.log(values);
                 setSubmitting(false);
             }}
@@ -106,13 +116,16 @@ export default function NewProjet (){
                     <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full px-0 mb-3 md:mb-0">
                         <label className='' htmlFor="description">Description</label>
-                        <InputTextarea 
+                        <Editor 
                             className=" bg-white text-gray-600 border leading-tight focus:outline-none focus:bg-white" 
                             id="description" 
-                            rows={5} cols={20}
                             autoResize
+                            value={formik.values.description}
                             placeholder="description du projet" 
-                            {...formik.getFieldProps('description')}
+                            onTextChange={(event) => {
+                   
+                                formik.setFieldValue("description", event.htmlValue)
+                                }}
                         />
                         {formik.touched.description && formik.errors.description ? (
                             <div className="text-red-500 text-xs italic">{formik.errors.description}</div>
@@ -129,7 +142,7 @@ export default function NewProjet (){
                         >
                             <option disabled>Sélectionnez une Catégorie</option>
                             {categories.map((item) => (
-                                <option key={item.id} value={item.id}>{item.name}</option>
+                                <option key={item.id} value={item.name}>{item.name}</option>
                             ))}
                         </Field>
                         {formik.touched.category && formik.errors.category ? (
@@ -148,14 +161,12 @@ export default function NewProjet (){
                         name="image"
                         accept='image/png ,image/jpeg'
                         onChange={(event) => {
-                            // const fileReader = new FileReader();
-                            // fileReader.onload = () => {
-                            //     if (fileReader.readyState === 2) {
-                            //         formik.setFieldValue('image', fileReader.result);
-                            //     // setAvatarPreview(fileReader.result);
-                            //     }
-                            // };
-                            // fileReader.readAsDataURL(event.currentTarget.files[0]);
+                            const file = event.currentTarget.files[0];
+                            if (!file.match(imageMimeType) ) {
+                                toast.current.show({severity : 'danger' , summary:'Faild' , detail:'Image mime type est invalide' , life:'3000'});
+                                return;
+                            }
+                            setFile(file);
                             formik.setFieldValue("image", event.currentTarget.files[0])
                             }}
                         />
@@ -166,7 +177,7 @@ export default function NewProjet (){
                     </div>
                     <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full px-0 mb-0 md:mb-0">
-                     <label className="" htmlFor="resume">Fichier résume(.doc , .odt , .txt) </label>
+                     <label className="" htmlFor="resume">Fichier résume(.doc , .docx , .odt , .txt) </label>
                     <input
                         ref={inputRef}
                         className="appearance-none block w-full bg-white text-gray-600 border rounded py-2 px-3 mb-2 leading-tight focus:outline-none focus:bg-white focus:border-blue" 
@@ -175,14 +186,11 @@ export default function NewProjet (){
                         name="resume"
                         accept='.doc , .docx , .odt , .txt'
                         onChange={(event) => {
-                            // const fileReader = new FileReader();
-                            // fileReader.onload = () => {
-                            //     if (fileReader.readyState === 2) {
-                            //         formik.setFieldValue('resume', fileReader.result);
-                            //     // setAvatarPreview(fileReader.result);
-                            //     }
-                            // };
-                            // fileReader.readAsDataURL(event.currentTarget.files[0]);
+                            const file = event.currentTarget.files[0];
+                            if (!file.match(resumeMimeType) ) {
+                                toast.current.show({severity : 'danger' , summary:'Faild' , detail:'mime type du fichier resume est invalide' , life:'3000'});
+                                return;
+                            }
                             formik.setFieldValue("resume", event.currentTarget.files[0])
                             }}
                         />
@@ -193,7 +201,7 @@ export default function NewProjet (){
                     </div>
                     <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full px-0 mb-0 md:mb-0">
-                     <label className="" htmlFor="rapport">Fichier rapport(.pdf , .doc , .docx , .odt) </label>
+                     <label className="" htmlFor="rapport">Fichier rapport(.pdf , .doc , .docx ) </label>
                     <input
                         ref={inputRef}
                         className="appearance-none block w-full bg-white text-gray-600 border rounded py-2 px-3 mb-2 leading-tight focus:outline-none focus:bg-white focus:border-blue" 
@@ -202,14 +210,11 @@ export default function NewProjet (){
                         name="rapport"
                         accept='.pdf , .doc , .docx '
                         onChange={(event) => {
-                            // const fileReader = new FileReader();
-                            // fileReader.onload = () => {
-                            //     if (fileReader.readyState === 2) {
-                            //         formik.setFieldValue('resume', fileReader.result);
-                            //     // setAvatarPreview(fileReader.result);
-                            //     }
-                            // };
-                            // fileReader.readAsDataURL(event.currentTarget.files[0]);
+                            const file = event.currentTarget.files[0];
+                            if (!file.match(rapportMimeType) ) {
+                                toast.current.show({severity : 'danger' , summary:'Faild' , detail:'mime type du fichier rapport est invalide' , life:'3000'});
+                                return;
+                            }
                             formik.setFieldValue("rapport", event.currentTarget.files[0])
                             }}
                         />
@@ -229,14 +234,11 @@ export default function NewProjet (){
                         name="presentation"
                         accept='.ppt , .pptx'
                         onChange={(event) => {
-                            // const fileReader = new FileReader();
-                            // fileReader.onload = () => {
-                            //     if (fileReader.readyState === 2) {
-                            //         formik.setFieldValue('resume', fileReader.result);
-                            //     // setAvatarPreview(fileReader.result);
-                            //     }
-                            // };
-                            // fileReader.readAsDataURL(event.currentTarget.files[0]);
+                            const file = event.currentTarget.files[0];
+                            if (!file.match(presentationMimeType) ) {
+                                toast.current.show({severity : 'danger' , summary:'Faild' , detail:'mime type du fichier presentation est invalide' , life:'3000'});
+                                return;
+                            }
                             formik.setFieldValue("presentation", event.currentTarget.files[0])
                             }}
                         />
@@ -256,14 +258,11 @@ export default function NewProjet (){
                         name="videoDemo"
                         accept='.avi , .mpeg , .ogv , .mp4'
                         onChange={(event) => {
-                            // const fileReader = new FileReader();
-                            // fileReader.onload = () => {
-                            //     if (fileReader.readyState === 2) {
-                            //         formik.setFieldValue('resume', fileReader.result);
-                            //     // setAvatarPreview(fileReader.result);
-                            //     }
-                            // };
-                            // fileReader.readAsDataURL(event.currentTarget.files[0]);
+                            const file = event.currentTarget.files[0];
+                            if (!file.match(videoMimeType) ) {
+                                toast.current.show({severity : 'danger' , summary:'Faild' , detail:'mime type du fichier video est invalide' , life:'3000'});
+                                return;
+                            }
                             formik.setFieldValue("videoDemo", event.currentTarget.files[0])
                             }}
                         />
@@ -283,14 +282,11 @@ export default function NewProjet (){
                         name="codeSource"
                         accept='.zip , .rar'
                         onChange={(event) => {
-                            // const fileReader = new FileReader();
-                            // fileReader.onload = () => {
-                            //     if (fileReader.readyState === 2) {
-                            //         formik.setFieldValue('resume', fileReader.result);
-                            //     // setAvatarPreview(fileReader.result);
-                            //     }
-                            // };
-                            // fileReader.readAsDataURL(event.currentTarget.files[0]);
+                            const file = event.currentTarget.files[0];
+                            if (!file.match(codeMimeType) ) {
+                                toast.current.show({severity : 'danger' , summary:'Faild' , detail:'mime type du fichier codeSource est invalide' , life:'3000'});
+                                return;
+                            }
                             formik.setFieldValue("codeSource", event.currentTarget.files[0])
                             }}
                         />

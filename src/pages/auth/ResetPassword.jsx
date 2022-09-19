@@ -1,66 +1,122 @@
-import React from 'react'
-import {useParams} from 'react-router-dom'
-import {showErrMsg, showSuccessMsg} from '../../components/'
-import {isLength, isMatch} from '../..'
+import React ,{useRef} from 'react';
+import {useParams} from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+import { Toast } from 'primereact/toast';
+import { InputText } from 'primereact/inputtext';
+import '../../css/auth.css';
+import {PostResetPasswordToken} from '../../services/UserService';
 
-const initialState = {
-    password: '',
-    cf_password: '',
-    err: '',
-    success: ''
-}
 
 const ResetPassword = () => {
-    const [data, setData] = useState(initialState)
-    const {token} = useParams()
-
-    const {password, cf_password, err, success} = data
-
-    const handleChangeInput = e => {
-        const {name, value} = e.target
-        setData({...data, [name]:value, err: '', success: ''})
-    }
-
-    const handleResetPass = async () => {
-        if(isLength(password))
-            return setData({...data, err: "Password must be at least 6 characters.", success: ''})
-
-        if(!isMatch(password, cf_password))
-            return setData({...data, err: "Password did not match.", success: ''})
-        
-        // try {
-        //     const res = await axios.post('/user/reset', {password}, {
-        //         headers: {Authorization: token}
-        //     })
-
-        //     return setData({...data, err: "", success: res.data.msg})
-
-        // } catch (err) {
-        //     err.response.data.msg && setData({...data, err: err.response.data.msg, success: ''})
-        // }
-        
-    }
-
-
+    const {token } = useParams();
+    console.log(token)
+    const toast = useRef(null);
+ 
   return (
-    <div className="fg_pass">
-    <h2>Reset Your Password</h2>
+    <>
+    <Helmet>
+             <script>
+                 document.title = "Réinitialiser mot de passe"
+             </script>
+     </Helmet>
+     <Toast ref={toast} />
+    <div children="fg_pass ">
+        <div className='resetPas card'>
+        <h4 className='mb-4'>Réinitialiser votre mot de passe</h4>
+        <p>Le mot de passe doit avoir au moins 8 caractère avec un caractère spécial.</p>
 
-    <div className="row">
-        {err && showErrMsg(err)}
-        {success && showSuccessMsg(success)}
+        <Formik 
+            initialValues={{password:'', cf_password:''}}
+            validationSchema={Yup.object({
+              password:Yup.string()
+              .min(8, "Mot de passe doit être plus grand que 8 caractères")
+              .max(50, "Mot de passe doit être plus petit que 50 caractères")
+              ,
+              cf_password: Yup.string()
+              .required("Confirmation de mot de passe est obligatoire")
+              .oneOf(
+                  [Yup.ref("password"), null],
+                  "Le mot de passe de confirmation ne correspond pas"
+              ),
+            })}
 
-        <label htmlFor="password">Password</label>
-        <input type="password" name="password" id="password" value={password}
-        onChange={handleChangeInput} />
+            onSubmit={async (values , {setSubmitting , resetForm}) => {
+                let data = new FormData();
+                  for (let value in values) {
+                    data.append(value, values[value]);
+                  }
+                  setSubmitting(true);
 
-        <label htmlFor="cf_password">Confirm Password</label>
-        <input type="password" name="cf_password" id="cf_password" value={cf_password}
-        onChange={handleChangeInput} />         
+                  var requestOptions = {
+                      method: 'POST',
+                      body: data,
+                      redirect: 'follow'
+                  };
 
-        <button onClick={handleResetPass}>Reset Password</button>
+                  try {
+                     let res = await PostResetPasswordToken(token , requestOptions);
+                     if (res.ok) {
+                      toast.current.show({ severity: 'success', summary: '', detail: "Mot de passe réinitialisé", life: 3000 });
+                    } else {
+                      if(Array.isArray(res) && res.length === 0) return "error";
+                        let r = await res.json()
+                        throw r[0].message;
+                    }
+                  }
+                  catch (err){
+                    console.log("err: ", err);
+                    toast.current.show({ severity: 'error', summary: 'Failed', detail: err, life: 3000 });
+                  }
+                    }}
+        >
+          {(formik) =>  (
+              <form className="w-full" onSubmit={formik.handleSubmit} encType="multipart/form-data">
+                <div className="flex flex-wrap">
+                    <div className="w-full py-3 ">
+                        <label className='' htmlFor="firstname">Mot de passe</label>
+                        <InputText 
+                            className="w-full py-2 resetINp" 
+                            id="password" 
+                            type="password"
+                            placeholder="Mot de passe" 
+                            {...formik.getFieldProps('password')}
+                        />
+                        {formik.touched.password && formik.errors.password ? (
+                            <div className="text-red-500 text-xs italic">{formik.errors.password}</div>
+                        ) : null}
+                    </div>
+                    <div className="w-full py-3">
+                        <label className='' htmlFor="firstname">Confirmer mot de passe</label>
+                        <InputText
+                            className="w-full py-2 " 
+                            id="cf_password" 
+                            type="password"
+                            placeholder="Confirmer le mot de passe" 
+                            {...formik.getFieldProps('cf_password')}
+                        />
+                        {formik.touched.cf_password && formik.errors.cf_password ? (
+                            <div className="text-red-500 text-xs italic">{formik.errors.cf_password}</div>
+                        ) : null}
+                    </div>
+                    <div className="flex justify-between w-full ">
+                        <button className="shadow bg-green-600 hover:bg-green-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-6 rounded" 
+                          type="submit"
+                          disabled={formik.isSubmitting}
+                          >
+                          {formik.isSubmitting ? "Réinitialisation..." : "Réinitialiser"}
+                        </button>
+                    </div>
+                </div>
+              </form>
+            )}
+
+        </Formik>
+        </div>
+      
     </div>
-</div>
+    </>
   )
 }
 

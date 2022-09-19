@@ -3,17 +3,21 @@ import { useParams } from 'react-router';
 import { DataView, DataViewLayoutOptions } from 'primereact/dataview';
 import Helmet from "react-helmet";
 import {GetCategory , GetCategoryItem } from '../../services/CategoryService';
-import {GetProjets , DelProjet , PutProjet , FavProjet , UnFavProjet} from '../../services/ProjetService';
+import {GetProjets , GetProjetsById , DelProjet , PutProjet , FavProjet , UnFavProjet} from '../../services/ProjetService';
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
-import { InputTextarea } from 'primereact/inputtextarea';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {Editor} from 'primereact/editor';
 import { Dialog } from 'primereact/dialog';
 import { Formik, Field} from 'formik';
 import * as Yup from 'yup';
 import '../../css/Form.css';
 import Projet1 from '../../data/projet1.jpg';
 import {AiOutlinePlus} from'react-icons/ai';
+import {getItemFromStorage , numFormatter} from '../../helpers/helper';
+import {useAuth} from '../../hoc/useAuth';
+import parse from 'html-react-parser';
 
 
 const ProjetByCategory = () => {
@@ -29,18 +33,24 @@ const ProjetByCategory = () => {
         videoDemo:"",
         codeSource:"",
         prix:0,
+        favoritedBy : [] ,
         createdAt:null,
         updatedAt:null
     };
    
 
     const {id} = useParams();
+    const token = getItemFromStorage('token');
+    
+    const {user} = useAuth();
+   
 
     const [projets , setProjets] = useState(null);
     const [projetDialog, setProjetDialog] = useState(false);
     const [deleteProjetDialog, setDeleteProjetDialog] = useState(false);
     const [categories , setCategories] = useState([]);
     const [projet, setProjet] = useState(emptyProjet);
+    const [singleProjet , setSingleProjet] = useState(null);
     const [loading, setLoading] = useState(true);
     const toast = useRef(null);
     const [isDeleted, setIsDeleted] = useState(false);
@@ -109,11 +119,11 @@ const ProjetByCategory = () => {
     }
 
     const imageMimeType = /image\/(png|jpg|jpeg)/i;
-    const resumeMimeType = /application\/(msword|vnd.oasis.opendocument.text) | text\/plain/i;
-    const rapportMimeType = /application\/(pdf|msword|vnd.openxmlformats-officedocument.wordprocessingml.document|vnd.oasis.opendocument.text)/i;
-    const presentationMimeType =/application\/(vnd.ms-powerpoint|vnd.openxmlformats-officedocument.presentationml.presentation)/i ;
+    const resumeMimeType = /application\/(msword|vnd.openxmlformats-officedocument.wordprocessingml.document)/i;
+    const rapportMimeType = /application\/(pdf|msword|vnd.openxmlformats-officedocument.wordprocessingml.document)/i;
+    const presentationMimeType =/application\/(vnd.ms-powerpoint|vnd.openxmlformats-officedocument.presentationml.presentation)|multipart\/x-zip/i ;
     const videoMimeType =/video\/(x-msvideo|mpeg|ogg|mp4)/i ;
-    const codeMimeType = /application\/(zip|vnd.rar)/i;
+    const codeMimeType = /application\/(zip|vnd.rar|x-rar-compressed|octet-stream|x-zip-compressed)/i;
 
     const inputRef = useRef(null);
 
@@ -137,6 +147,7 @@ const ProjetByCategory = () => {
         setProjet({...projet});
         setProjetDialog(true);
         setFileDataURL(false);
+        
     }
 
     const findIdCategory = (name) => {
@@ -154,15 +165,16 @@ const ProjetByCategory = () => {
             val.id !== projet.id;
         });
         setProjets(_projets);
+        const token = getItemFromStorage('token');
         try{
-            let res = await DelProjet(projet.id)
+            let res = await DelProjet(projet.id , token)
             if (!res.ok){
                 if(Array.isArray(res) && res.length === 0) return "error";
                 let r = await res.json()
                 throw r[0].message;
             }
             else{
-                toast.current.show({ severity: 'success', summary: 'Réussi', detail: 'Le Cours supprimé avec succès', life: 3000 });
+                toast.current.show({ severity: 'success', summary: 'Réussi', detail: 'Le Projet supprimé avec succès', life: 3000 });
             }
         }
         catch (err){
@@ -180,10 +192,78 @@ const ProjetByCategory = () => {
         </React.Fragment>
     );
 
-    // let handleFavorite = e => {
-    //     e.preventDefault()
-    //     projet.favoritedBy.filter(user => (user.id === currentUserId)) === 0 
-    // }
+    const FavoriteAction = ({projet}) => {
+        const favorited = projet?.favoritedBy.filter(f => (f.id === user.id)).length ;
+        return (
+                <button  className=" text-dark" onClick={() => handleFavorite(projet.id)}>
+                    {favorited ===0 ?
+                  <i  className="pi pi-heart-fill  projet-category-icon" />
+                  :
+                  <i  className="pi pi-heart-fill text-danger projet-category-icon" />
+                    }
+                </button>
+            
+            )
+              
+    }
+
+   
+
+
+    const  handleFavorite = async (projetId) => {
+        try {
+            let res = await GetProjetsById(projetId);
+            if(res.ok) {
+                let data = await res.json()
+                setSingleProjet(data);
+                console.log(singleProjet)
+                if(user) {
+                    data.favoritedBy?.filter(u => (u.id === user.id)).length ===0 ?
+                    favProjet(data.id) : unfavProjet(data.id)
+                    console.log(singleProjet)
+                }
+            }
+        } catch (error) {
+            
+        }
+    }
+    
+
+    const favProjet = async (projetId ) => {
+       
+        try {
+            let res =  await FavProjet(projetId  ,token)
+            if (!res.ok){
+                if(Array.isArray(res) && res.length === 0) return "error";
+                let r =  res.json()
+                throw r[0].message;
+            }
+            else{
+                toast.current.show({ severity: 'success', summary: 'Réussi', detail: 'Projet ajouté aux favoris', life: 3000 });
+            }
+        } catch (error) {
+            
+        }
+    }
+
+    const unfavProjet = async (projetId ) => {
+       
+        try {
+            let res = await UnFavProjet(projetId  ,token)
+            if (!res.ok){
+                if(Array.isArray(res) && res.length === 0) return "error";
+                let r =  res.json()
+                throw r[0].message;
+            }
+            else{
+                toast.current.show({ severity: 'success', summary: 'Réussi', detail: 'Projet supprimé des favoris', life: 3000 });
+            }
+        } catch (error) {
+            
+        }
+    }
+
+    
    
 
     const renderGridItem = (data) => {
@@ -193,8 +273,8 @@ const ProjetByCategory = () => {
                 <div className="projet-grid-item card">
                     <div className="projet-grid-item-top">
                         <div>
-                            <i className="pi pi-heart-fill projet-category-icon "></i>
-                            <span className="projet-notes"> <a className="text-gray-500" href="">{data.favoritesCount} </a> </span>
+                            <FavoriteAction projet={data}></FavoriteAction>
+                            <span className="projet-notes">{ numFormatter(data.favoritesCount)}  </span>
                         </div> 
                         
                     </div>
@@ -203,9 +283,9 @@ const ProjetByCategory = () => {
                         <img src={`${url}/${data.image}`} onError={(e) => e.target.src='https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={data.name} />
                         :
                         <img src={Projet1} onError={(e) => e.target.src='https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={data.name} />
- }
-                        <div className="projet-title"><a href="/Projet">{data.title}</a></div>
-                        <div className="projet-description">{data.description}</div>
+                       }
+                        <div className="projet-title"><a href={`/${data.id}/ProjetDetail`}>{data.title}</a></div>
+                        <div className="projet-description">{parse(data.description)}</div>
                         
                     </div>
                     <div className="projet-grid-item-bottom">
@@ -214,17 +294,17 @@ const ProjetByCategory = () => {
                     </div>
                     <div className="projet-grid-item-comment">
                         <div>
-                           <span className="projet-comments"> <a href="/Comment">{data.comments} Commentaires</a> </span>
+                           <span className="projet-comments"> <a href={`/${data.id}/ProjetDetail#tab-comments`}>{data.comments} Commentaires</a> </span>
                         </div>
                         <div>
-                           <span className="projet-notes"> <a href="/Note">{data.notes} Notes</a> </span>
+                           <span className="projet-notes"> <a href={`/${data.id}/ProjetDetail#tab-notes`}>{data.notes} Notes</a> </span>
                         </div>
                     </div>
                     <div className="btn-group dropup mb-18">
                         <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
                         <div className="dropdown-menu" aria-labelledby="dropdownMenu2">
-                            <button className="dropdown-item" type="button" onClick={() => editProjet(data)}><i className="pi pi-pencil"></i>Edit</button>
-                            <button className="dropdown-item" type="button" onClick={() => confirmDeleteProjet(data)}><i className="fa fa-trash"></i>Delete</button>
+                            <button className="dropdown-item" type="button" onClick={() => editProjet(data)}><i className="pi pi-pencil"></i>Modifier</button>
+                            <button className="dropdown-item" type="button" onClick={() => confirmDeleteProjet(data)}><i className="fa fa-trash"></i>Supprimer</button>
                         </div>
                     </div>
                 </div>
@@ -253,7 +333,7 @@ const ProjetByCategory = () => {
             {projet.id ?
              <Dialog visible={projetDialog} style={{ width: '650px' }} header="Modifier Projet" modal  className="p-fluid" onHide={hideDialog}>
                 <Formik
-                    initialValues = {{title:projet.title , description:projet.description , category:findIdCategory(projet.category) ,image:`${url}/${projet.image}` , resume:'',rapport:'',presentation:'',videoDemo:'',codeSource:'',prix:projet.prix}}
+                    initialValues = {{title:projet.title , description:projet.description , category:projet.category ,image:`${url}/${projet.image}` , resume:'',rapport:'',presentation:'',videoDemo:'',codeSource:'',prix:projet.prix}}
                     validationSchema = {Yup.object({
                         title: Yup.string()
                         .min(10 , '10 characters or plus')
@@ -263,6 +343,12 @@ const ProjetByCategory = () => {
                         .max(250 , 'Must be 250 characters or less'),
                         category: Yup.string()
                         .required('Required'),
+                        image: Yup.mixed(),
+                        resume: Yup.mixed(),
+                        rapport: Yup.mixed(),
+                        presentation: Yup.mixed(),
+                        videoDemo: Yup.mixed(),
+                        codeSource: Yup.mixed(),
                     })}
                     onSubmit = {async (values , {setSubmitting, resetForm}) =>  {
                         let data = new FormData();
@@ -273,8 +359,33 @@ const ProjetByCategory = () => {
                         let requestOptions = {
                             method: 'PUT',
                             body: data,
+                            headers: new Headers({"Authorization":"Bearer " +token}),
                             redirect: 'follow'
                         };
+                       
+
+                        try{
+                            let res = await PutProjet(projet.id ,requestOptions )
+                            if (res.ok){
+                                let d = await res.json();
+                                toast.current.show({ severity: 'success', summary: 'Created!', detail: "Projet has been updated Successfully", life: 3000 });
+                                setIsEdited(preIsEdited =>(!preIsEdited));
+                                setProjetDialog(false)
+                                resetForm();
+                                resetFileInput();
+                            }
+                            else{
+                                if(Array.isArray(res) && res.length === 0) return "error";
+                                let r = await res.json()
+                                throw r[0].message;
+                            }
+                        }
+                        catch (err){
+                            console.log("err: ", err);
+                            toast.current.show({ severity: 'error', summary: 'Failed', detail: err, life: 3000 });
+                        } 
+                        setSubmitting(false);
+
                     }} >
                        {(formik) => (
                 <form className="p-fluid " onSubmit={formik.handleSubmit} encType="multipart/form-data">
@@ -282,6 +393,7 @@ const ProjetByCategory = () => {
                     <div className="w-full px-0 mb-0 md:mb-0">
                         <label className='' htmlFor="title">Titre*</label>
                         <InputText
+                            
                             className=" bg-white py-2 text-gray-600 border leading-tight focus:outline-none focus:bg-white" 
                             id="title" 
                             type="text"
@@ -296,13 +408,16 @@ const ProjetByCategory = () => {
                     <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full px-0 mb-3 md:mb-0">
                         <label className='' htmlFor="description">Description</label>
-                        <InputTextarea 
+                        <Editor 
                             className=" bg-white text-gray-600 border leading-tight focus:outline-none focus:bg-white" 
                             id="description" 
-                            rows={5} cols={20}
                             autoResize
+                            value={formik.values.description}
                             placeholder="description du projet" 
-                            {...formik.getFieldProps('description')}
+                            onChange={(event) => {
+                               
+                                formik.setFieldValue("description", event.htmlValue)
+                                }}
                         />
                         {formik.touched.description && formik.errors.description ? (
                             <div className="text-red-500 text-xs italic">{formik.errors.description}</div>
@@ -319,7 +434,7 @@ const ProjetByCategory = () => {
                         >
                             <option disabled>Sélectionnez une Catégorie</option>
                             {categories.map((item) => (
-                                <option key={item.id} value={item.id}>{item.name}</option>
+                                <option key={item.id} value={item.name}>{item.name}</option>
                             ))}
                         </Field>
                         {formik.touched.category && formik.errors.category ? (
@@ -339,7 +454,7 @@ const ProjetByCategory = () => {
                         accept='image/png ,image/jpeg'
                         onChange={(event) => {
                             const file = event.currentTarget.files[0];
-                            if (!file.match(imageMimeType) ) {
+                            if (!file.type.match(imageMimeType) ) {
                                 toast.current.show({severity : 'danger' , summary:'Faild' , detail:'Image mime type est invalide' , life:'3000'});
                                 return;
                             }
@@ -368,17 +483,17 @@ const ProjetByCategory = () => {
                     </div>
                     <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full px-0 mb-0 md:mb-0">
-                     <label className="" htmlFor="resume">Fichier résume(<span className="text-red-500">.doc , .odt , .txt</span>) </label>
+                     <label className="" htmlFor="resume">Fichier résume(<span className="text-red-500">.doc , .docx , .odt , .txt</span>) </label>
                     <input
                         ref={inputRef}
                         className="appearance-none block w-full bg-white text-gray-600 border rounded py-2 px-3 mb-2 leading-tight focus:outline-none focus:bg-white focus:border-blue" 
                         id="resume" 
                         type="file"
                         name="resume"
-                        accept='.doc , .odt , .txt'
+                        accept='.doc , .docx, '
                         onChange={(event) => {
                             const file = event.currentTarget.files[0];
-                            if (!file.match(resumeMimeType) ) {
+                            if (!file.type.match(resumeMimeType) ) {
                                 toast.current.show({severity : 'danger' , summary:'Faild' , detail:'mime type du fichier resume est invalide' , life:'3000'});
                                 return;
                             }
@@ -392,17 +507,17 @@ const ProjetByCategory = () => {
                     </div>
                     <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full px-0 mb-0 md:mb-0">
-                     <label className="" htmlFor="rapport">Fichier rapport(<span className="text-red-500">.pdf , .doc , .docx , .odt</span>) </label>
+                     <label className="" htmlFor="rapport">Fichier rapport(<span className="text-red-500">.pdf , .doc , .docx </span>) </label>
                     <input
                         ref={inputRef}
                         className="appearance-none block w-full bg-white text-gray-600 border rounded py-2 px-3 mb-2 leading-tight focus:outline-none focus:bg-white focus:border-blue" 
                         id="rapport" 
                         type="file"
                         name="rapport"
-                        accept='.pdf , .doc , .docx , .odt'
+                        accept='.pdf , .doc , .docx '
                         onChange={(event) => {
                             const file = event.currentTarget.files[0];
-                            if (!file.match(rapportMimeType) ) {
+                            if (!file.type.match(rapportMimeType) ) {
                                 toast.current.show({severity : 'danger' , summary:'Faild' , detail:'mime type du fichier rapport est invalide' , life:'3000'});
                                 return;
                             }
@@ -426,7 +541,7 @@ const ProjetByCategory = () => {
                         accept='.ppt , .pptx'
                         onChange={(event) => {
                             const file = event.currentTarget.files[0];
-                            if (!file.match(presentationMimeType) ) {
+                            if (!file.type.match(presentationMimeType) ) {
                                 toast.current.show({severity : 'danger' , summary:'Faild' , detail:'mime type du fichier presentation est invalide' , life:'3000'});
                                 return;
                             }
@@ -450,7 +565,7 @@ const ProjetByCategory = () => {
                         accept='.avi , .mpeg , .ogv , .mp4'
                         onChange={(event) => {
                             const file = event.currentTarget.files[0];
-                            if (!file.match(videoMimeType) ) {
+                            if (!file.type.match(videoMimeType) ) {
                                 toast.current.show({severity : 'danger' , summary:'Faild' , detail:'mime type du fichier video est invalide' , life:'3000'});
                                 return;
                             }
@@ -474,7 +589,7 @@ const ProjetByCategory = () => {
                         accept='.zip , .rar'
                         onChange={(event) => {
                             const file = event.currentTarget.files[0];
-                            if (!file.match(codeMimeType) ) {
+                            if (!file.type.match(codeMimeType) ) {
                                 toast.current.show({severity : 'danger' , summary:'Faild' , detail:'mime type du fichier codeSource est invalide' , life:'3000'});
                                 return;
                             }

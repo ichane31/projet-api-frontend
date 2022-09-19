@@ -12,23 +12,17 @@ export async function GetNote(id) {
     return await fetch(`https://projet-apis.herokuapp.com/api/v1/note/${id}`);
 }
 
-export async function PostNote(id , newNote ,token) {
-    return await fetch(`https://projet-apis.herokuapp.com/api/v1/note/${id}`, newNote ,{
-    headers: {
-        'Authorization': `Bearer ${token}` 
-    } });
+export async function PostNote(id , newNote ) {
+    return await fetch(`https://projet-apis.herokuapp.com/api/v1/note/${id}`, newNote );
 }
 
-export async function PutNote(id, modifieNote , token) {
-    return await fetch(`https://projet-apis.herokuapp.com/api/v1/note/${id}`, modifieNote ,{
-    headers: {
-        'Authorization': `Bearer ${token}` 
-    } });
+export async function PutNote(id, modifieNote ) {
+    return await fetch(`https://projet-apis.herokuapp.com/api/v1/note/${id}`, modifieNote );
 }
 
 export async function DelNote(id , token) {
     return await fetch(`https://projet-apis.herokuapp.com/api/v1/note/${id}` ,{
     headers: {
         'Authorization': `Bearer ${token}` 
-    } },  { method: 'DELETE'});
+    } , method: 'DELETE'});
 }

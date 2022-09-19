@@ -11,10 +11,11 @@
 } */
 
 .dataview-category .category-name a{
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 700;
     color: black;
     height: 25px;
+    
 }
 
 .dataview-category .category-description {
@@ -46,7 +47,7 @@
 }
 
 .dataview-category .category-list-item .category-projet {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 600;
     margin-bottom: .5rem;
     align-self: flex-end;
@@ -118,6 +119,23 @@
     box-shadow: 0 5px 25px rgb(1 1 1 / 20%);
     border-radius: 10px;
     overflow: hidden;
+}
+
+.dataview-category .search_icon_not {
+    width: 20%;
+    margin-left:48%;
+    margin-right:25%;
+}
+.dataview-category .search_icon_not i {
+    font-size: 5em;
+    font-weight: 20;
+}
+.dataview-category  .messageNot {
+    width:50%;
+    margin-left: 30%;
+    margin-right: 25%;
+    margin-top: 2%;
+    margin-bottom: 5%;
 }
 
 @media screen and (max-width: 576px) {

@@ -5,6 +5,10 @@ import '../css/contact.css'
 import Helmet from "react-helmet";
 import { Formik} from 'formik';
 import * as Yup from 'yup';
+import {InputText} from 'primereact/inputtext';
+import {InputTextarea} from 'primereact/inputtextarea';
+import {PostContact} from '../services/ContactService';
+
 const Contact = () => {
     
   return (
@@ -55,6 +59,28 @@ const Contact = () => {
                           body: data,
                           redirect: 'follow'
                         };
+
+                        try {
+                          let res = await PostCategory(requestOptions)
+                            if (res.ok){
+                                let d = await res.json();
+                                toast.current.show({ severity: 'success', summary: 'Created!', detail: "Category has been Created Successfully", life: 3000 });
+                                resetForm();
+                                resetFileInput();
+                            }
+                            else{
+                                if(Array.isArray(res) && res.length === 0) return "error";
+                                let r = await res.json()
+                                throw r[0].message;
+                            }
+                        }
+                        catch (err) {
+                          console.log("err: ", err);
+                            toast.current.show({ severity: 'error', summary: 'Failed', detail: err, life: 3000 });
+                        }
+
+                        setSubmitting(false);
+
                         } }>
 
                           {(formik) => (
@@ -62,7 +88,7 @@ const Contact = () => {
                               <div className="row">
                                 <div className="col-md-12">
                                   <div className="form-group">
-                                    <input style={{background: 'transparent'}}
+                                    <InputText 
                                       type="text"
                                       className="form-control"
                                       name="name"
@@ -74,7 +100,7 @@ const Contact = () => {
                                 </div>
                                 <div className="col-md-12">
                                   <div className="form-group">
-                                    <input style={{background: 'transparent'}}
+                                    <InputText 
                                       type="email"
                                       className="form-control"
                                       name="email"
@@ -85,7 +111,7 @@ const Contact = () => {
                                 </div>
                                 <div className="col-md-12">
                                   <div className="form-group">
-                                    <input style={{background: 'transparent'}}
+                                    <InputText 
                                       type="text"
                                       className="form-control"
                                       name="subject"
@@ -96,7 +122,7 @@ const Contact = () => {
                                 </div>
                                 <div className="col-md-12">
                                   <div className="form-group">
-                                    <textarea style={{background: 'transparent'}}
+                                    <InputTextarea 
                                       type="text"
                                       className="form-control"
                                       name="message"
@@ -104,7 +130,7 @@ const Contact = () => {
                                       cols="30"
                                       rows="6"
                                       {...formik.getFieldProps('message')}
-                                    ></textarea>
+                                    ></InputTextarea>
                                   </div>
                                 </div>
                                 <div className="col-md-12">

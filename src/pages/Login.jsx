@@ -10,6 +10,7 @@ import * as Yup from 'yup';
 import {LoginUser  } from '../services/UserService';
 import {useAuth} from '../hoc/useAuth';
 import { setItemInStorage } from '../helpers/helper';
+import {InputText} from 'primereact/inputtext';
 
 const Login = () => {
     const toast = useRef(null);
@@ -32,7 +33,7 @@ const Login = () => {
         <section>
         <div className='limiter '>
             <div className="container-login100">
-                <div className="wrap-login100 p-l-55 p-r-55 p-t-55 p-b-54">
+                <div className="wrap-login100 p-l-55 p-r-55 p-t-45 p-b-54">
                     
                 
                 <Formik
@@ -63,31 +64,36 @@ const Login = () => {
                         };
 
                         try{
-                            // dispatch({type : 'REQUEST_LOGIN'});
+                            dispatch({type : 'REQUEST_LOGIN'});
                             let res = await LoginUser(requestOptions)
                             if (res.ok){
                                 let d = await res.json();
-                                // if(d.id) {
-                                //     dispatch({ type: 'LOGIN', payload: d });
-                                //     setItemInStorage('user', d);
-                                //     setItemInStorage('token',d.token);
-                                //     return d
-                                // }
+                                
+                                dispatch({ type: 'LOGIN', payload: d });
+                                setItemInStorage('user', d);
+                                setItemInStorage('token',d.token);
+                                if(d.role =1) {
+                                    setItemInStorage('admin', d);
+                                }
+                                    
+                                navigate('/Acceuil')
+                                localStorage.setItem('userId',d.id);
+                               
                                 toast.current.show({ severity: 'success', summary: 'Created!', detail: "Vous éte connecté", life: 3000 });
                                 resetForm();
-                                // navigate(`/Acceuil`)
-                                // localStorage.setItem('userId',d.id);
+                                return d
+                                
 
                             }
                             else{
                                 if(Array.isArray(res) && res.length === 0) return "error";
                                 let r = await res.json()
-                                // dispatch({ type: 'LOGIN_ERROR', error: r[0] });
-                                throw r[0].message;
+                                dispatch({ type: 'LOGIN_ERROR', });
+                                throw r[0]?.message;
                             }
                         }
                         catch (err){
-                            // dispatch({ type: 'LOGIN_ERROR', error: error });
+                            dispatch({ type: 'LOGIN_ERROR', });
                             console.log("err: ", err);
                             toast.current.show({ severity: 'error', summary: 'Failed', detail: err, life: 3000 });
                         } 
@@ -102,7 +108,7 @@ const Login = () => {
                            <span className="login100-form-title p-b-49">Connection</span> 
 						   <div className ="wrap-input100 validate-input m-b-23" data-validate='email is required'>
                                 <span className='label-input100'>Addresse email</span>
-                 			    <input type="text" 
+                 			    <InputText type="text" 
                        				className='input100'
                        				name="email"
                        				placeholder='Entrez votre addresse email'
@@ -116,7 +122,7 @@ const Login = () => {
                 			</div>
 							<div className="wrap-input100 validate-input" data-validate="Password is required">
 								<span className="label-input100">Mot de passe</span>
-								<input
+								<InputText
 									className="input100"
 									type="password"
 									name="password"
@@ -134,24 +140,26 @@ const Login = () => {
 							<div className="container-login100-form-btn">
 								<div className="wrap-login100-form-btn">
 									<div className="login100-form-bgbtn" />
-									<button type="submit" className="login100-form-btn">Connection</button>
+									<button type="submit" className="login100-form-btn">
+                                    {formik.isSubmitting ? "Connection..." : "Connection"}
+                                    </button>
 								</div>
 							</div>
-							<div className="or-seperator"><b>ou</b></div>
+							{/* <div className="or-seperator"><b>ou</b></div>
 							<div className="flex-c-m">
-								<a href="#" className="login100-social-item bg1">
+								<button href="#" className="login100-social-item bg1">
 									<i className="fa fa-facebook" />
-								</a>
-								<a href="#" className="login100-social-item bg2">
+								</button>
+								<button href="#" className="login100-social-item bg2">
 									<i className="fa fa-twitter" />
-								</a>
-								<a href="#" className="login100-social-item bg3">
+								</button>
+								<button href="#" className="login100-social-item bg3">
 									<i className="fa fa-google" />
-								</a>
-							</div>
+								</button>
+							</div> */}
 							<div className="flex-row p-t-30 " style={{  justifyContent: 'space-between' }}>
-                               <span className="txt1 p-b-15"> Create Account</span>{'  '}
-                				<div><a href="/Register" className="txt2">Sign Up</a></div>
+                               <span className="txt1 p-b-15"> Pas encore de compte?</span>{'  '}
+                				<div><a href="/Register" className="txt2">S'inscrire</a></div>
                				    <div></div>
                 				<div></div>
              				</div>

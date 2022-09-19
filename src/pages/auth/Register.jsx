@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import { Toast } from 'primereact/toast';
 import '../../css/auth.css';
 import {PostRegisterUser} from '../../services/UserService';
+import {InputText} from 'primereact/inputtext';
 
 
 export default function Register() {
@@ -57,7 +58,8 @@ export default function Register() {
                 </script>
         </Helmet>
         <Toast ref={toast} />
-        <div className="login_page ">
+        <div className='cardRegister'>
+        <div className="login_page  ">
             <h2>Inscription</h2>
             <Formik 
             initialValues = {initialValues}
@@ -81,7 +83,7 @@ export default function Register() {
                         toast.current.show({ severity: 'success', summary: 'Created!', detail: "Un email de verification vous a eté envoyé", life: 3000 });
                         resetForm();
                         // resetFileInput();
-                        console.log(d)
+                       
                         navigate(`/${values.email}/emailSend`)
                     }
                     else{
@@ -101,10 +103,10 @@ export default function Register() {
                {(formik) => (
                 <> 
                 <form className="p-fluid " onSubmit={formik.handleSubmit} encType="multipart/form-data">
-                    <div className=" nomPrenom  justify-center-between">
+                    
                     <div className="wrap">
                         <label className='' htmlFor="firstname">Prenom</label>
-                        <input
+                        <InputText
                             className=" " 
                             id="firstname" 
                             type="text"
@@ -117,7 +119,7 @@ export default function Register() {
                     </div>
                     <div className="wrap">
                         <label className='' htmlFor="lastname">Nom</label>
-                        <input
+                        <InputText
                             className=" " 
                             id="lastname" 
                             type="text"
@@ -128,10 +130,10 @@ export default function Register() {
                             <div className="text-red-500 text-xs italic">{formik.errors.lastname}</div>
                         ) : null}
                     </div>
-                    </div>
+                    
                     <div className="wrap">
                         <label className='' htmlFor="lastname">Addresse Email</label>
-                        <input
+                        <InputText
                             className=" " 
                             id="email" 
                             type="email"
@@ -145,7 +147,7 @@ export default function Register() {
                     
                     <div className="wrap">
                     <label className='' htmlFor="lastname">Mot de passe</label>
-                        <input
+                        <InputText
                             className=" " 
                             id="password" 
                             type="password"
@@ -158,7 +160,7 @@ export default function Register() {
                     </div>
                     <div className="wrap">
                     <label className='' htmlFor="lastname">Confirmez Mot de passe</label>
-                        <input
+                        <InputText
                             className=" " 
                             id="cf_password" 
                             type="password"
@@ -171,7 +173,7 @@ export default function Register() {
                     </div>
                    
                     <div className="custom-control custom-checkbox pt-3 pb-3">
-                         <input type="checkbox" className="custom-control-input" id="customCheck1" 
+                         <InputText type="checkbox" className="custom-control-input" id="customCheck1" 
                          {...formik.getFieldProps('acceptTerms')}/>
                          <label className="custom-control-label" htmlFor="customCheck1">Acceptez les termes de confidentialité</label>
                          {formik.touched.acceptTerms && formik.errors.acceptTerms ? (
@@ -186,18 +188,19 @@ export default function Register() {
                     {formik.isSubmitting ? "Creating..." : "inscription"}
                     </button>
                 </div>
-                <div className="or-seperator"><b>ou</b></div>
+                {/* <div className="or-seperator"><b>ou</b></div>
                 <div className="social-btn text-center">
-                    <a href="#" className="btn btn-primary btn-lg bg-primary "><i className="icon-facebook "></i> </a>
-                    <a href="#" className="btn btn-info btn-lg"><i className="icon-twitter"></i> </a>
-                    <a href="#" className="btn btn-danger btn-lg"><i className="icon-google"></i> </a>
-                    </div>
+                    <button  className="btn btn-primary bg-primary "><i className=" fa fa-facebook "></i> </button>
+                    <button href="#" className="btn btn-info "><i className=" fa fa-twitter"></i> </button>
+                    <button href="#" className="btn btn-danger  "><i className=" fa fa-google"></i> </button>
+                    </div> */}
                 </form>
-                <p className="mt-5 mb-4">Already an account? <Link to="/Login">Login</Link> </p>
+                <p className="mt-5 mb-4">Vous avez déja un compte? <Link to="/Login">Inscription</Link> </p>
                 </>
                )} 
             </Formik>
             
+        </div>
         </div>
     </>
   )

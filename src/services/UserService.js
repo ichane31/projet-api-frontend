@@ -9,11 +9,12 @@ export async function GetMe(token) {
     } });
 }
 
-export async function PutMe(modifieMe , token) {
-    return await fetch('https://projet-apis.herokuapp.com/api/v1/user/me', modifieMe ,{
-    headers: {
-        'Authorization': `Bearer ${token}` 
-    } });
+export async function PutMe(modifieMe ) {
+    return await fetch('https://projet-apis.herokuapp.com/api/v1/user/me', modifieMe );
+}
+
+export async function PutMePassword(modifie ) {
+    return await fetch('https://projet-apis.herokuapp.com/api/v1/user/me/password', modifie );
 }
 
 export async function PostRegisterUser(newUser) {
@@ -32,8 +33,8 @@ export async function VerifyEmail(token) {
     return await fetch(`https://projet-apis.herokuapp.com/api/v1/user/verify/${token}`);
 }
 
-export async function ResetPassword() {
-    return await fetch('https://projet-apis.herokuapp.com/api/v1/user/resetpassword');
+export async function ResetPassword(body) {
+    return await fetch('https://projet-apis.herokuapp.com/api/v1/user/resetpassword',body );
 }
 
 export async function GetResetPasswordToken(token) {
@@ -55,7 +56,7 @@ export async function GetUser(id, token) {
         } })
 }
 
-export async function BelUser(id) {
+export async function DelUser(id) {
     return await fetch(`https://projet-apis.herokuapp.com/api/v1/user/${id}` , {method: 'DELETE'} );
 }
 
@@ -63,8 +64,8 @@ export async function LoginUser(user) {
     return await fetch(`https://projet-apis.herokuapp.com/api/v1/user/login` , user);
 }
 
-export async function Logout() {
-    return await fetch('https://projet-apis.herokuapp.com/api/v1/user/logout');
+export async function Logout(token) {
+    return await fetch('https://projet-apis.herokuapp.com/api/v1/user/logout' , {method: 'POST' , headers: {"Authorization": "Bearer " +token}});
 }
 
 export async function GetMeDetails(token) {
@@ -88,6 +89,10 @@ export async function GetRoleAdmin() {
 
 export async function GetRoleUser() {
     return await fetch('https://projet-apis.herokuapp.com/api/v1/user/role/user');
+}
+
+export async function DelAccount(pass) {
+    return await fetch('https://projet-apis.herokuapp.com/api/v1/user/Account/me',pass );
 }
 
 

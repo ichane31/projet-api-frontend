@@ -1,23 +1,22 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { DataView, DataViewLayoutOptions } from 'primereact/dataview';
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css'
+import React  , {useState , useEffect , useRef} from 'react';
+import { GetSearchProjets ,PostSearchProjets} from '../services/SearchService';
 import Helmet from 'react-helmet';
-import {GetProjets} from '../../services/ProjetService';
-import '../../css/Projets.css';
-import projet0 from '../../data/projet0.jpg';
+import { DataView, } from 'primereact/dataview';
 import parse from 'html-react-parser';
+import '../css/Projets.css';
+import projet0 from '../data/projet1.jpg';
 
-const Projets = () => {
+
+const SearchProjets = ({query}) => {
     const url = 'https://projet-apis.herokuapp.com/api/v1/file';
-    const [projets, setProjets] = useState(null);
-    const [layout, setLayout] = useState('grid');
+    const [projets , setProjets] = useState([]);
     const [loading, setLoading] = useState(true);
     const [first, setFirst] = useState(0);
     const [totalRecords, setTotalRecords] = useState(0);
     const rows = useRef(3);
     const datasource = useRef(null);
     const isMounted = useRef(false);
+   
 
     useEffect(() => {
         if (isMounted.current) {
@@ -25,12 +24,13 @@ const Projets = () => {
                 setLoading(false);
             }, 1000);
         }
-    }, [loading]); // eslint-disable-line react-hooks/exhaustive-deps
+      
+    } , [loading])
 
     useEffect(() => {
         setTimeout(() => {
             isMounted.current = true;
-            GetProjets().then(data => {
+            GetSearchProjets(query).then(data => {
                 datasource.current = data;
                 setTotalRecords(data.length);
                 setProjets(datasource.current.slice(0, rows.current));
@@ -46,23 +46,28 @@ const Projets = () => {
         setTimeout(() => {
             const startIndex = event.first;
             const endIndex = Math.min(event.first + rows.current, totalRecords - 1);
-            const newProjets = startIndex === endIndex ? datasource.current.slice(startIndex) : datasource.current.slice(startIndex, endIndex);
+            const newProducts = startIndex === endIndex ? datasource.current.slice(startIndex) : datasource.current.slice(startIndex, endIndex);
 
             setFirst(startIndex);
-            setProjets(newProjets);
+            setProjets(newProducts);
             setLoading(false);
         }, 1000);
     }
-
-
+    console.log(projets)
     const renderGridItem = (data) => {
-        return( 
+        return (
+            <>
+            <Helmet>
+                <script>
+                    document.title = "Search results Projets"
+                </script>
+            </Helmet>
             <div className="d-flex">
                 <div className="projet-grid-item card">
                     <div className="projet-grid-item-top">
                         <div>
                             <i className="pi pi-tag projet-category-icon"></i>
-                            <span className="projet-category">{data.category}</span>
+                            <span className="projet-category">{data.category?.name}</span> 
                         </div>
                      
                     </div>
@@ -81,7 +86,7 @@ const Projets = () => {
                     </div>
                     <div className="projet-grid-item-comment">
                         <div>
-                           <span className="projet-comments"> <a href={`/${data.id}/ProjetDetail#tab-comments`}>{data.Comments} Commentaires</a> </span>
+                           <span className="projet-comments"> <a href={`/${data.id}/ProjetDetail#tab-comments`}>{data.comments} Commentaires</a> </span>
                         </div>
                         <div>
                            <span className="projet-notes"> <a href={`/${data.id}/ProjetDetail#tab-notes`}>{data.notes} Notes</a> </span>
@@ -89,46 +94,36 @@ const Projets = () => {
                     </div>
                 </div>
             </div>
-        )
-    } 
-
-    const renderHeader = () => {
-        // let onOptionChange = (e) => {
-        //     setLoading(true);
-        //     setLayout(e.value);
-        // };
-
-        return (
-            <div>
-                <div style={{ textAlign: 'right' }}>
-                    <button className="btn btn-success bg-white text-white"> <a href="/NewProjet">Ajouter un Projet</a> </button>
-                </div>
-                {/* <div style={{ textAlign: 'left' }}>
-                    <DataViewLayoutOptions layout={layout} onChange={onOptionChange} />
-                </div> */}
-            </div>
+               
+            </>
         );
     }
 
-    const header = renderHeader();
-  return (
-    <>
-      <Helmet>
-            <script>
-                document.title = "ProjetsPage"
-            </script>
-      </Helmet>
-      <h3 className="projets">Tous les projets</h3>
-      <div className="dataview-projet">
-            {/* <div className="card"> */}
-                <DataView value={projets} layout={layout} header={header}
+    return (
+        
+        <div className="dataview-projet">
+             
+             {/* <div className="card-group">  */}
+             {projets.length > 0 ?
+                <DataView value={projets} 
                         itemTemplate={renderGridItem} lazy paginator paginatorPosition={'bottom'} rows={rows.current}
-                        totalRecords={totalRecords} first={first} onPage={onPage} loading={loading} />
-            {/* </div> */}
+                        totalRecords={totalRecords} first={first} onPage={onPage}  loading={loading} 
+                        />
+                :
+                <div className="justify-center">
+                    <div className='search_icon_not'> <i className= 'pi pi-search' > </i> </div>
+                    <h3 className='mt-4'>Aucun résultat trouvé</h3>
+                    <div className='messageNot'>
+                       <p>Nous n'avons pas trouvé ce que vous cherchez.Essayez d'utiliser d'autres mots.</p>
+                    </div> 
+                </div>
+                
+             }
+              {/* </div>   */}
+            
             
         </div>
-    </>
-  )
+    );
 }
 
-export default Projets
+export default SearchProjets

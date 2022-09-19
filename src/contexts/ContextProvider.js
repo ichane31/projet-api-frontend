@@ -22,7 +22,7 @@ export const ContextProvider = ({ children }) => {
   }
 
   
-  const handleClick = (clicked) => setIsClicked({ ...initialState, [clicked]: true });
+  const handleClick = (clicked) => setIsClicked({ ...initialState, [clicked]: !isClicked.userProfile });
 
   return (
     // eslint-disable-next-line react/jsx-no-constructed-context-values
